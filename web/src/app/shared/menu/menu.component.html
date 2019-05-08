@@ -1,4 +1,4 @@
-<mat-nav-list>
+<mat-nav-list class="list">
   <a mat-list-item routerLink="/toeggeli">
     <mat-icon class="icon">home</mat-icon>
     <span class="label">Dashboard</span>
@@ -14,5 +14,10 @@
   <a mat-list-item>
     <mat-icon class="icon">dashboard</mat-icon>
     <span class="label">Spieler ELO History</span>
+  </a>
+
+  <a mat-list-item class="mt-auto" (click)="logoutClicked()">
+    <mat-icon class="icon">logout</mat-icon>
+    <span class="label">Logout</span>
   </a>
 </mat-nav-list>

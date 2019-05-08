@@ -16,7 +16,7 @@ export class UserLoginRequested implements Action {
 }
 
 export class UserLogoutRequested implements Action {
-  readonly type = AuthActionTypes.UserLoginRequested;
+  readonly type = AuthActionTypes.UserLogoutRequested;
 }
 
 export class UserLoggedIn implements Action {

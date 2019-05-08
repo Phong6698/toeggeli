@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { AppState } from './store/app-store.reducer';
+import { UserLogoutRequested } from './store/auth.actions';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +9,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'toeggeli-web';
+  constructor(private store: Store<AppState>) {
+  }
+
+  logout() {
+    this.store.dispatch(new UserLogoutRequested());
+  }
 }
