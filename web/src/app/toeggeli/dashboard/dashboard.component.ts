@@ -7,7 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+  hash = 'asdfasdfasdf';
+
+  constructor() {
+  }
 
   ngOnInit() {
   }
