@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule, MatIconModule, MatListModule, MatMenuModule, MatToolbarModule } from '@angular/material';
+import { RouterModule } from '@angular/router';
 import { MenuComponent } from './menu/menu.component';
 import { HeaderComponent } from './header/header.component';
 
@@ -16,7 +17,8 @@ import { HeaderComponent } from './header/header.component';
     MatListModule,
     MatToolbarModule,
     MatMenuModule,
-    MatButtonModule
+    MatButtonModule,
+    RouterModule
   ]
 })
 export class SharedModule { }
