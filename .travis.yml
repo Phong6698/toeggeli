@@ -8,6 +8,7 @@ addons:
     packages:
       - google-chrome-stable
 script:
+  - cd web
   - npm install
   - npm run build.prod
 install: 
