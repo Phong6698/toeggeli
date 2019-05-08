@@ -1,4 +1,4 @@
-<mat-card class="example-card">
+<mat-card style="margin-top: 2rem">
   <mat-card-header>
     <mat-card-title>Login</mat-card-title>
   </mat-card-header>
@@ -29,7 +29,13 @@
           class="button"
           [disabled]="!formGroup.valid"
         >
-          Submit Form
+          Login
+        </button>
+      </div>
+
+      <div class="form-element">
+        <button mat-raised-button color="primary" class="button">
+          Registrieren
         </button>
       </div>
     </form>
