@@ -3,11 +3,16 @@ import { Router } from '@angular/router';
 import { Actions, Effect, ofType, ROOT_EFFECTS_INIT } from '@ngrx/effects';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { AuthService } from '../core/auth.service';
-import { AuthActionTypes, UserLoggedIn, UserLoggedOut, UserLoginRequested, UserLogoutRequested } from './auth.actions';
+import {
+  AuthActionTypes,
+  UserLoggedIn,
+  UserLoggedOut,
+  UserLoginRequested,
+  UserLogoutRequested
+} from './auth.actions';
 
 @Injectable()
 export class AuthEffects {
-
   @Effect()
   init$ = this.actions$.pipe(
     ofType(ROOT_EFFECTS_INIT),
@@ -20,11 +25,11 @@ export class AuthEffects {
           phoneNumber: user.phoneNumber,
           photoURL: user.photoURL,
           providerId: user.providerId,
-          uid: user.uid,
+          uid: user.uid
         };
-        this.router.navigate(['/toeggeli']);
         return new UserLoggedIn({ user: profile });
       } else {
+        this.router.navigate(['/auth']);
         return new UserLoggedOut();
       }
     })
@@ -34,7 +39,11 @@ export class AuthEffects {
   login$ = this.actions$.pipe(
     ofType<UserLoginRequested>(AuthActionTypes.UserLoginRequested),
     tap(action => {
-      this.authService.doPasswordLogin(action.payload.email, action.payload.password);
+      this.authService
+        .doPasswordLogin(action.payload.email, action.payload.password)
+        .then(() => {
+          this.router.navigate(['/toeggeli']);
+        });
     })
   );
 
@@ -46,9 +55,9 @@ export class AuthEffects {
     })
   );
 
-  constructor(private actions$: Actions,
-              private authService: AuthService,
-              private router: Router) {
-  }
-
+  constructor(
+    private actions$: Actions,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 }

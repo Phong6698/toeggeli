@@ -1,3 +1,4 @@
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { UserInfo } from 'firebase';
 import { AuthActions, AuthActionTypes } from './auth.actions';
 
@@ -9,7 +10,10 @@ export const initialState: AuthState = {
   user: null
 };
 
-export function authReducer(state = initialState, action: AuthActions): AuthState {
+export function authReducer(
+  state = initialState,
+  action: AuthActions
+): AuthState {
   switch (action.type) {
     case AuthActionTypes.UserLoggedIn:
       return {
@@ -25,3 +29,10 @@ export function authReducer(state = initialState, action: AuthActions): AuthStat
       return state;
   }
 }
+
+const selectUser = createFeatureSelector<AuthState>('auth');
+
+export const selectUserInfo = createSelector(
+  selectUser,
+  user => user
+);
