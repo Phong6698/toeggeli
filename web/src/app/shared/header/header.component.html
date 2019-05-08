@@ -1,0 +1,22 @@
+<mat-toolbar color="primary" class="header">
+  <div>
+    <button mat-icon-button (click)="menuButtonClicked()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    Toeggeli Web
+  </div>
+  <div>
+    <button mat-button [matMenuTriggerFor]="groupMenu">
+      Raiffeisen
+      <mat-icon>keyboard_arrow_down</mat-icon>
+    </button>
+    <mat-menu #groupMenu="matMenu">
+      <button mat-menu-item>Raiffeisen</button>
+      <button mat-menu-item>Buddies</button>
+      <button mat-menu-item>
+        <mat-icon>add_circle</mat-icon>
+        Gruppe hinzufügen
+      </button>
+    </mat-menu>
+  </div>
+</mat-toolbar>
