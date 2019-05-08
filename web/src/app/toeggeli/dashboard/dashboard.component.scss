@@ -1,0 +1,29 @@
+.rank {
+  display: flex;
+  width: 40px;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+
+  &.gold {
+    background-color: gold;
+  }
+
+  &.silver {
+    background-color: silver;
+  }
+
+  &.bronze {
+    background-color: brown;
+  }
+
+  &.others {
+    background-color: lightskyblue;
+  }
+}
+
+.new-game {
+  position: fixed;
+  bottom: 35px;
+  right: 10px;
+}

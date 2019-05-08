@@ -11,18 +11,31 @@ export class DashboardComponent implements OnInit {
     {
       firstName: 'Steven',
       lastName: 'Imhof',
-      username: 'Angry Steven'
+      username: 'Angry Steven',
+      wins: 10,
+      losses: 0
     },
     {
       firstName: 'Chiramet',
       lastName: 'Penglerd',
-      username: 'Phong'
+      username: 'Phong',
+      wins: 8,
+      losses: 2
     },
     {
       firstName: 'Dominik',
       lastName: 'Forster',
-      username: 'domi'
+      username: 'domi',
+      wins: 6,
+      losses: 4
     },
+    {
+      firstName: 'Peter',
+      lastName: 'Meier',
+      username: 'pete',
+      wins: 2,
+      losses: 8
+    }
   ];
 
   constructor() {
