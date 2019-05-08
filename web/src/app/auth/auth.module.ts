@@ -23,6 +23,7 @@ import { LoginComponent } from './login/login.component';
     MatProgressSpinnerModule,
     ReactiveFormsModule,
     MatInputModule
-  ]
+  ],
+  providers: []
 })
 export class AuthModule {}

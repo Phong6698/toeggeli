@@ -9,6 +9,8 @@ const routes: Routes = [
   }
 ];
 
+// login, register, forgot-password
+
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
