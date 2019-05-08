@@ -1,16 +1,16 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material';
-
-import { ToeggeliRoutingModule } from './toeggeli-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { ToeggeliRoutingModule } from './toeggeli-routing.module';
 
 @NgModule({
   declarations: [DashboardComponent],
   imports: [
     CommonModule,
     ToeggeliRoutingModule,
-    MatCardModule
+    MatCardModule,
   ]
 })
-export class ToeggeliModule { }
+export class ToeggeliModule {
+}
