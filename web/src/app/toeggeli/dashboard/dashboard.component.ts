@@ -7,7 +7,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  hash = 'asdfasdfasdf';
+  players = [
+    {
+      firstName: 'Steven',
+      lastName: 'Imhof',
+      username: 'Angry Steven'
+    },
+    {
+      firstName: 'Chiramet',
+      lastName: 'Penglerd',
+      username: 'Phong'
+    },
+    {
+      firstName: 'Dominik',
+      lastName: 'Forster',
+      username: 'domi'
+    },
+  ];
 
   constructor() {
   }
