@@ -1,5 +1,5 @@
 import { routerReducer, RouterReducerState } from '@ngrx/router-store';
-import { ActionReducerMap, MetaReducer } from '@ngrx/store';
+import { ActionReducerMap, createSelector, MetaReducer } from '@ngrx/store';
 import { storeFreeze } from 'ngrx-store-freeze';
 import { environment } from '../../environments/environment';
 import { authReducer, AuthState } from './auth.reducer';
@@ -16,3 +16,20 @@ export const reducers: ActionReducerMap<AppState> = {
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production ? [storeFreeze] : [];
+
+export const selectRouter = (state: AppState) => state.router;
+
+export const selectRouterState = createSelector(
+  selectRouter,
+  router => router.state
+);
+
+export const selectRouterParams = createSelector(
+  selectRouterState,
+  state => state.params
+);
+
+export const selectRouterParamSpaceId = createSelector(
+  selectRouterParams,
+  params => params.spaceId
+);
