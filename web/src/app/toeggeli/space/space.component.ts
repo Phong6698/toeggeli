@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app-store.reducer';
+import { SpacesRequested } from '../toeggeli.actions';
 
 @Component({
   selector: 'app-space',
@@ -8,10 +9,7 @@ import { AppState } from '../../store/app-store.reducer';
   styleUrls: ['./space.component.scss']
 })
 export class SpaceComponent implements OnInit {
-  constructor(private store: Store<AppState>) {
-  }
+  constructor(private store: Store<AppState>) {}
 
-  ngOnInit() {
-    // this.store.dispatch(new SpaceRequested());
-  }
+  ngOnInit() {}
 }

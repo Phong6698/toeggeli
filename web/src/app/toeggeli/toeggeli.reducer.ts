@@ -3,10 +3,12 @@ import { ToeggeliActions, ToeggeliActionTypes } from './toeggeli.actions';
 
 export interface ToeggeliState {
   user: any;
+  spaces: any;
 }
 
 export const initialState: ToeggeliState = {
-  user: null
+  user: null,
+  spaces: null
 };
 
 export function toeggeliReducer(state = initialState, action: ToeggeliActions): ToeggeliState {
@@ -15,6 +17,12 @@ export function toeggeliReducer(state = initialState, action: ToeggeliActions): 
       return {
         ...state,
         user: action.payload.user
+      };
+
+    case ToeggeliActionTypes.SpacesLoaded:
+      return {
+        ...state,
+        spaces: action.payload.spaces
       };
 
     default:
