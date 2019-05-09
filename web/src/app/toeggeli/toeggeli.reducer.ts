@@ -5,14 +5,19 @@ import { ToeggeliActions, ToeggeliActionTypes } from './toeggeli.actions';
 export interface ToeggeliState {
   user: any;
   spaces: any;
+  hasAddSpaceError: boolean;
 }
 
 export const initialState: ToeggeliState = {
   user: null,
-  spaces: null
+  spaces: null,
+  hasAddSpaceError: false
 };
 
-export function toeggeliReducer(state = initialState, action: ToeggeliActions): ToeggeliState {
+export function toeggeliReducer(
+  state = initialState,
+  action: ToeggeliActions
+): ToeggeliState {
   switch (action.type) {
     case ToeggeliActionTypes.UserLoaded:
       return {
@@ -24,6 +29,12 @@ export function toeggeliReducer(state = initialState, action: ToeggeliActions): 
       return {
         ...state,
         spaces: action.payload.spaces
+      };
+
+    case ToeggeliActionTypes.AddSpaceFailed:
+      return {
+        ...state,
+        hasAddSpaceError: true
       };
 
     default:
@@ -60,4 +71,9 @@ export const selectToeggeliSelectedSpaceName = createSelector(
 
     return selectedSpace && selectedSpace.name;
   }
+);
+
+export const selectToeggeliAddSpaceError = createSelector(
+  selectToeggeli,
+  state => state.hasAddSpaceError
 );
