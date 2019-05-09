@@ -3,13 +3,14 @@ import { UserInfo } from 'firebase';
 
 export enum AuthActionTypes {
   UserLoginRequested = '[Auth] User Login Requested',
-  //UserLoginSuccessful = '[Auth] User Login Successful',
+  // UserLoginSuccessful = '[Auth] User Login Successful',
   UserLoginFailed = '[Auth] User Login Failed',
   UserLogoutRequested = '[Auth] User Logout Requested',
   UserLoggedIn = '[Auth] User LoggedIn',
   UserLoggedOut = '[Auth] User LoggedOut',
   UserRegistrationRequested = '[Auth] User Registration Requested',
-  UserRegistrationFailed = '[Auth] User Registration Failed'
+  UserRegistrationFailed = '[Auth] User Registration Failed',
+  UserCreationRequested = '[Auth] User Creation Requested'
 }
 
 export class UserLoginRequested implements Action {
@@ -45,13 +46,18 @@ export class UserLoggedOut implements Action {
 export class UserRegistrationRequested implements Action {
   readonly type = AuthActionTypes.UserRegistrationRequested;
 
-  constructor(public payload: { email: string; password: string }) {}
+  constructor(public payload: {username: string; firstName: string; lastName: string; email: string; password: string }) {}
 }
 
 export class UserRegistrationFailed implements Action {
   readonly type = AuthActionTypes.UserRegistrationFailed;
 
   constructor(public payload: { errorCode: string }) {}
+}
+
+export class UserCreationRequested implements Action {
+  readonly type = AuthActionTypes.UserCreationRequested;
+  constructor(public payload: {uid: string; username: string; firstName: string; lastName: string}) {}
 }
 
 export type AuthActions =
@@ -62,4 +68,5 @@ export type AuthActions =
   | UserLoggedIn
   | UserLoggedOut
   | UserRegistrationRequested
-  | UserRegistrationFailed;
+  | UserRegistrationFailed
+  | UserCreationRequested;
