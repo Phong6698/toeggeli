@@ -1,4 +1,4 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { createSelector } from '@ngrx/store';
 import { UserInfo } from 'firebase';
 import { AppState } from './app-store.reducer';
 import { AuthActions, AuthActionTypes } from './auth.actions';
@@ -15,7 +15,10 @@ export const initialState: AuthState = {
   registrationErrorCode: null
 };
 
-export function authReducer(state = initialState, action: AuthActions): AuthState {
+export function authReducer(
+  state = initialState,
+  action: AuthActions
+): AuthState {
   switch (action.type) {
     case AuthActionTypes.UserLoggedIn:
       return {
@@ -61,6 +64,6 @@ export const selectAuthLoginError = createSelector(
 );
 
 export const selectUserRegistrationError = createSelector(
-  selectUser,
+  selectAuth,
   state => state.registrationErrorCode
 );
