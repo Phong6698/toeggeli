@@ -1,13 +1,14 @@
-import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { Router } from '@angular/router';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
-import { combineLatest, Observable } from 'rxjs';
-import { map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
-import { AppState, selectRouterParamSpaceId } from '../store/app-store.reducer';
-import { selectAuthUserId } from '../store/auth.reducer';
+import {Injectable} from '@angular/core';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {Router} from '@angular/router';
+import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Store} from '@ngrx/store';
+import {combineLatest, Observable} from 'rxjs';
+import {map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
+import {AppState, selectRouterParamSpaceId} from '../store/app-store.reducer';
+import {selectAuthUserId} from '../store/auth.reducer';
 import {
+  MatchCreationRequested,
   SpacesLoaded,
   SpacesRequested,
   SpaceUsersRequested,
@@ -16,11 +17,21 @@ import {
   UserLoaded,
   UserRequested
 } from './toeggeli.actions';
-import { selectToeggeliUserSpaces } from './toeggeli.reducer';
-import { User } from './user';
+import {selectToeggeliUserSpaces} from './toeggeli.reducer';
+import {User} from './user';
+import {MatchService} from '../core/match.service';
 
 @Injectable()
 export class ToeggeliEffects {
+
+  constructor(
+    private actions$: Actions<ToeggeliActions>,
+    private store: Store<AppState>,
+    private angularFirestore: AngularFirestore,
+    private router: Router,
+    private matchService: MatchService
+  ) {}
+
   @Effect()
   userRequested$ = this.actions$.pipe(
     ofType<UserRequested>(ToeggeliActionTypes.UserRequested),
@@ -91,10 +102,13 @@ export class ToeggeliEffects {
     })
   );
 
-  constructor(
-    private actions$: Actions<ToeggeliActions>,
-    private store: Store<AppState>,
-    private angularFirestore: AngularFirestore,
-    private router: Router
-  ) {}
+  @Effect()
+  matchCreationRequested$ = this.actions$.pipe(
+    ofType<MatchCreationRequested>(ToeggeliActionTypes.MatchCreationRequested),
+    switchMap(action => {
+      return this.matchService.createMatch(action.payload.match).pipe(
+        tap()
+      );
+    }),
+  );
 }
