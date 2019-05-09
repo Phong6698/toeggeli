@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { AppState, selectRouterParamSpaceId } from '../../store/app-store.reducer';
+import { SpaceUsersRequested } from '../toeggeli.actions';
 
 @Component({
   selector: 'app-space',
@@ -6,7 +9,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./space.component.scss']
 })
 export class SpaceComponent implements OnInit {
-  constructor() {}
+  constructor(private store: Store<AppState>) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.store.select(selectRouterParamSpaceId).subscribe(spaceId => {
+      this.store.dispatch(new SpaceUsersRequested({ spaceId }));
+    });
+  }
 }
