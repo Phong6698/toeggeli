@@ -1,9 +1,8 @@
-<mat-card class="example-card">
+<mat-card style="margin-top: 2rem">
   <mat-card-header>
-    <mat-card-title>Login</mat-card-title>
+    <mat-card-title>Registration</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    {{ isLoggedIn }}
     <form
       [formGroup]="formGroup"
       (ngSubmit)="onSubmit(formGroup.value)"
@@ -17,10 +16,6 @@
         <input matInput placeholder="Password" formControlName="password" />
       </mat-form-field>
 
-      <mat-error *ngIf="hasLoginError$ | async">
-        Login failed.
-      </mat-error>
-
       <div class="form-element">
         <button
           mat-flat-button
@@ -29,7 +24,7 @@
           class="button"
           [disabled]="!formGroup.valid"
         >
-          Submit Form
+          Register
         </button>
       </div>
     </form>

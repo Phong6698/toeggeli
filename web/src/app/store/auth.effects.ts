@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType, ROOT_EFFECTS_INIT } from '@ngrx/effects';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { AuthService } from '../core/auth.service';
 import {
   AuthActionTypes,
   UserLoggedIn,
   UserLoggedOut,
+  UserLoginFailed,
   UserLoginRequested,
-  UserLogoutRequested
+  UserLogoutRequested,
+  UserRegistrationRequested
 } from './auth.actions';
 
 @Injectable()
@@ -29,29 +32,56 @@ export class AuthEffects {
         };
         return new UserLoggedIn({ user: profile });
       } else {
-        this.router.navigate(['/auth']);
+        // this.router.navigate(['/auth']);
         return new UserLoggedOut();
       }
     })
   );
 
-  @Effect({ dispatch: false })
+  @Effect()
   login$ = this.actions$.pipe(
     ofType<UserLoginRequested>(AuthActionTypes.UserLoginRequested),
-    tap(action => {
-      this.authService
+    switchMap(action => {
+      return this.authService
         .doPasswordLogin(action.payload.email, action.payload.password)
-        .then(() => {
-          this.router.navigate(['/toeggeli']);
-        });
+        .pipe(
+          tap(() => this.router.navigate(['/toeggeli'])),
+          catchError(error =>
+            of(new UserLoginFailed({ errorCode: error.code }))
+          )
+        );
     })
   );
+  // tap(action => {
+  //   this.authService
+  //     .doPasswordLogin(action.payload.email, action.payload.password)
+  //     .then(() => {
+  //       this.router.navigate(['/toeggeli']);
+  //     });
+  // })
 
   @Effect({ dispatch: false })
   logout$ = this.actions$.pipe(
     ofType<UserLogoutRequested>(AuthActionTypes.UserLogoutRequested),
     tap(() => {
       this.authService.logout();
+    })
+  );
+
+  @Effect({ dispatch: false })
+  registration$ = this.actions$.pipe(
+    ofType<UserRegistrationRequested>(
+      AuthActionTypes.UserRegistrationRequested
+    ),
+    tap(action => {
+      this.authService
+        .createUserWithEmailAndPassword(
+          action.payload.email,
+          action.payload.password
+        )
+        .then(() => {
+          //this.router.navigate(['/toeggeli']);
+        });
     })
   );
 

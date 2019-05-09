@@ -4,10 +4,12 @@ import { AuthActions, AuthActionTypes } from './auth.actions';
 
 export interface AuthState {
   user: UserInfo;
+  loginErrorCode: string;
 }
 
 export const initialState: AuthState = {
-  user: null
+  user: null,
+  loginErrorCode: null
 };
 
 export function authReducer(
@@ -25,6 +27,11 @@ export function authReducer(
         ...state,
         user: null
       };
+    case AuthActionTypes.UserLoginFailed:
+      return {
+        ...state,
+        loginErrorCode: action.payload.errorCode
+      };
     default:
       return state;
   }
@@ -34,5 +41,10 @@ const selectUser = createFeatureSelector<AuthState>('auth');
 
 export const selectUserInfo = createSelector(
   selectUser,
-  user => user
+  state => state.user
+);
+
+export const selectUserLoginError = createSelector(
+  selectUser,
+  state => state.loginErrorCode
 );

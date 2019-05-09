@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { AppState } from '../../store/app-store.reducer';
 import { UserLoginRequested } from '../../store/auth.actions';
+import { selectUserLoginError } from '../../store/auth.reducer';
 
 @Component({
   selector: 'app-login',
@@ -11,16 +13,17 @@ import { UserLoginRequested } from '../../store/auth.actions';
 })
 export class LoginComponent implements OnInit {
   formGroup: FormGroup;
-  invalidLogin: boolean;
   isLoggedIn: boolean;
+  hasLoginError$: Observable<any>;
 
   constructor(
     private formBuilder: FormBuilder,
     private store: Store<AppState>
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
+    this.hasLoginError$ = this.store.pipe(select(selectUserLoginError));
+
     this.formGroup = this.formBuilder.group({
       email: [null, [Validators.required]],
       password: [null, [Validators.required]]
@@ -28,7 +31,8 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(data) {
-    this.store.dispatch(new UserLoginRequested({ email: data.email, password: data.password }));
+    this.store.dispatch(
+      new UserLoginRequested({ email: data.email, password: data.password })
+    );
   }
-
 }
