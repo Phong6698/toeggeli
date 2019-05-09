@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './core/auth.guard';
 
 const routes: Routes = [
   {
@@ -9,7 +10,8 @@ const routes: Routes = [
   },
   {
     path: 'toeggeli',
-    loadChildren: './toeggeli/toeggeli.module#ToeggeliModule'
+    loadChildren: './toeggeli/toeggeli.module#ToeggeliModule',
+    canActivate: [AuthGuard]
   },
   {
     path: 'auth',
