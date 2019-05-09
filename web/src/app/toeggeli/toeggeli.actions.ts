@@ -3,7 +3,8 @@ import { Action } from '@ngrx/store';
 export enum ToeggeliActionTypes {
   UserRequested = '[Toeggeli] User Requested',
   UserLoaded = '[Toeggeli] User Loaded',
-  SpaceRequested = '[Toeggeli] Space Requested'
+  SpacesRequested = '[Toeggeli] Spaces Requested',
+  SpacesLoaded = '[Toeggeli] Spaces Loaded'
 }
 
 export class UserRequested implements Action {
@@ -16,8 +17,16 @@ export class UserLoaded implements Action {
   constructor(public payload: { user: any }) {}
 }
 
-export class SpaceRequested implements Action {
-  readonly type = ToeggeliActionTypes.SpaceRequested;
+export class SpacesRequested implements Action {
+  readonly type = ToeggeliActionTypes.SpacesRequested;
+
+  constructor(public payload: { spaces: string[] }) {}
 }
 
-export type ToeggeliActions = UserRequested | UserLoaded | SpaceRequested;
+export class SpacesLoaded implements Action {
+  readonly type = ToeggeliActionTypes.SpacesLoaded;
+
+  constructor(public payload: { spaces: string[] }) {}
+}
+
+export type ToeggeliActions = UserRequested | UserLoaded | SpacesRequested | SpacesLoaded;
