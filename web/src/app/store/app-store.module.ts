@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
-import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../../environments/environment';
 import { metaReducers, reducers } from './app-store.reducer';
 import { AuthEffects } from './auth.effects';
+import { CustomRouterStateSerializer } from './custom-router-store-serializer';
 
 @NgModule({
   declarations: [],
@@ -15,10 +16,12 @@ import { AuthEffects } from './auth.effects';
     StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
     EffectsModule.forRoot([AuthEffects])
   ],
-  exports: [
-    StoreModule,
-    EffectsModule
+  exports: [StoreModule, EffectsModule],
+  providers: [
+    {
+      provide: RouterStateSerializer,
+      useClass: CustomRouterStateSerializer
+    }
   ]
 })
-export class AppStoreModule {
-}
+export class AppStoreModule {}

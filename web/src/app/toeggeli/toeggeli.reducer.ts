@@ -1,4 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { selectRouterParamSpaceId } from '../store/app-store.reducer';
 import { ToeggeliActions, ToeggeliActionTypes } from './toeggeli.actions';
 
 export interface ToeggeliState {
@@ -40,4 +41,23 @@ export const selectToeggeliUser = createSelector(
 export const selectToeggeliUserSpaces = createSelector(
   selectToeggeliUser,
   user => user && user.spaces
+);
+
+export const selectToeggeliSpaces = createSelector(
+  selectToeggeli,
+  state => state.spaces
+);
+
+export const selectToeggeliSelectedSpaceName = createSelector(
+  selectToeggeliSpaces,
+  selectRouterParamSpaceId,
+  (spaces, id) => {
+    if (!spaces) {
+      return null;
+    }
+
+    const selectedSpace = spaces.find(space => space.spaceId === id);
+
+    return selectedSpace && selectedSpace.name;
+  }
 );

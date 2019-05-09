@@ -11,6 +11,7 @@ import { toeggeliReducer } from './toeggeli.reducer';
 
 @NgModule({
   declarations: [DashboardComponent, SpaceComponent],
+  exports: [SpaceComponent],
   imports: [
     CommonModule,
     MatButtonModule,

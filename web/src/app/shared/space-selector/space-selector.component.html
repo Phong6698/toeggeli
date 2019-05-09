@@ -1,0 +1,12 @@
+<button mat-button [matMenuTriggerFor]="groupMenu">
+  {{selectedSpaceName$ | async}}
+  <mat-icon>keyboard_arrow_down</mat-icon>
+</button>
+<mat-menu #groupMenu="matMenu">
+  <button mat-menu-item *ngFor="let space of spaces$ | async" [routerLink]="['/toeggeli', space.spaceId]">{{space.name}}</button>
+  <mat-divider></mat-divider>
+  <button mat-menu-item>
+    <mat-icon>add_circle</mat-icon>
+    Gruppe hinzufügen
+  </button>
+</mat-menu>

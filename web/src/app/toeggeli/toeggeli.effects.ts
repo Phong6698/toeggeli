@@ -45,7 +45,17 @@ export class ToeggeliEffects {
     switchMap(action => {
       const spaces = action.payload.spaces;
       const spaceCollections: Observable<any>[] = spaces.map(spaceId =>
-        this.angularFirestore.doc('Spaces/' + spaceId).valueChanges()
+        this.angularFirestore
+          .doc('Spaces/' + spaceId)
+          .valueChanges()
+          .pipe(
+            map(space => {
+              return {
+                ...space,
+                spaceId
+              };
+            })
+          )
       );
 
       return combineLatest(spaceCollections).pipe(

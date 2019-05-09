@@ -6,18 +6,6 @@
     Toeggeli Web
   </div>
   <div>
-    <button mat-button [matMenuTriggerFor]="groupMenu">
-      Raiffeisen
-      <mat-icon>keyboard_arrow_down</mat-icon>
-    </button>
-    <mat-menu #groupMenu="matMenu">
-      <button mat-menu-item>Raiffeisen</button>
-      <button mat-menu-item>Buddies</button>
-      <mat-divider></mat-divider>
-      <button mat-menu-item>
-        <mat-icon>add_circle</mat-icon>
-        Gruppe hinzufügen
-      </button>
-    </mat-menu>
+    <app-space-selector></app-space-selector>
   </div>
 </mat-toolbar>
