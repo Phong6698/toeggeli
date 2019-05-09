@@ -6,8 +6,7 @@ import {
   MatCardModule,
   MatFormFieldModule,
   MatInputModule,
-  MatProgressSpinnerModule,
-  MatButtonModule
+  MatProgressSpinnerModule
 } from '@angular/material';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AuthRoutingModule } from './auth-routing.module';
