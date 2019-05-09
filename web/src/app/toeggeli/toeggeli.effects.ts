@@ -23,7 +23,7 @@ export class ToeggeliEffects implements OnInitEffects {
   userLoaded$ = this.actions$.pipe(
     ofType<UserLoaded>(ToeggeliActionTypes.UserLoaded),
     withLatestFrom(this.store.select(selectRouterParamSpaceId), this.store.select(selectToeggeliUserSpaces)),
-    tap(([spaceId, userSpaces]) => {
+    tap(([action, spaceId, userSpaces]) => {
       if (!spaceId && userSpaces && userSpaces[0]) {
         this.router.navigateByUrl(`/toeggeli/${userSpaces[0]}`);
       }
