@@ -11,7 +11,9 @@ export class AuthService {
   }
 
   createUserWithEmailAndPassword(email, password) {
-    return this.afAuth.auth.createUserWithEmailAndPassword(email, password);
+    return from(
+      this.afAuth.auth.createUserWithEmailAndPassword(email, password)
+    );
   }
 
   getAuthState() {
