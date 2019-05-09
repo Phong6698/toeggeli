@@ -63,17 +63,10 @@ export class AuthEffects {
   registration$ = this.actions$.pipe(
     ofType<UserRegistrationRequested>(AuthActionTypes.UserRegistrationRequested),
     switchMap(action => {
-      return this.authService
-        .createUserWithEmailAndPassword(
-          action.payload.email,
-          action.payload.password
-        )
-        .pipe(
-          tap(() => this.router.navigate(['/toeggeli'])),
-          catchError(error =>
-            of(new UserRegistrationFailed({ errorCode: error.code }))
-          )
-        );
+      return this.authService.createUserWithEmailAndPassword(action.payload.email, action.payload.password).pipe(
+        tap(() => this.router.navigate(['/toeggeli'])),
+        catchError(error => of(new UserRegistrationFailed({ errorCode: error.code })))
+      );
     })
 
     /*tap(action => {
