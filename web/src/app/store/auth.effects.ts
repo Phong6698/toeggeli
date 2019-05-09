@@ -47,7 +47,7 @@ export class AuthEffects {
       return this.authService
         .doPasswordLogin(action.payload.email, action.payload.password)
         .pipe(
-          tap(() => this.router.navigate(['/toeggeli'])),
+          tap(() => this.router.navigate(['/'])),
           catchError(error => of({ errorCode: error.code }))
         );
     }),
@@ -81,7 +81,7 @@ export class AuthEffects {
           action.payload.password
         )
         .pipe(
-          tap(() => this.router.navigate(['/toeggeli'])),
+          tap(() => this.router.navigate(['/'])),
           catchError(error => of({ errorCode: error.code }))
         );
     }),
