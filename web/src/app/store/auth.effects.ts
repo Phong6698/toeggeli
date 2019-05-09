@@ -43,12 +43,19 @@ export class AuthEffects {
   login$ = this.actions$.pipe(
     ofType<UserLoginRequested>(AuthActionTypes.UserLoginRequested),
     switchMap(action => {
-      return this.authService.doPasswordLogin(action.payload.email, action.payload.password).pipe(
-        tap(() => this.router.navigate(['/toeggeli'])),
-        catchError(error => of(new UserLoginFailed({ errorCode: error.code })))
-      );
+      return this.authService
+        .doPasswordLogin(action.payload.email, action.payload.password)
+        .pipe(
+          tap(() => this.router.navigate(['/toeggeli'])),
+          catchError(error => of({ errorCode: error.code }))
+        );
     }),
-    filter(action => action instanceof UserLoginFailed)
+    map((data: any) => {
+      if (data.errorCode) {
+        return new UserLoginFailed(data);
+      }
+    }),
+    filter(action => !!action)
   );
 
   @Effect({ dispatch: false })
@@ -61,20 +68,31 @@ export class AuthEffects {
 
   @Effect()
   registration$ = this.actions$.pipe(
-    ofType<UserRegistrationRequested>(AuthActionTypes.UserRegistrationRequested),
+    ofType<UserRegistrationRequested>(
+      AuthActionTypes.UserRegistrationRequested
+    ),
     switchMap(action => {
-      return this.authService.createUserWithEmailAndPassword(action.payload.email, action.payload.password).pipe(
-        tap(() => this.router.navigate(['/toeggeli'])),
-        catchError(error => of(new UserRegistrationFailed({ errorCode: error.code })))
-      );
-    })
-
-    /*tap(action => {
-      this.authService.createUserWithEmailAndPassword(action.payload.email, action.payload.password).then(() => {
-        //this.router.navigate(['/toeggeli']);
-      });
-    })*/
+      return this.authService
+        .createUserWithEmailAndPassword(
+          action.payload.email,
+          action.payload.password
+        )
+        .pipe(
+          tap(() => this.router.navigate(['/toeggeli'])),
+          catchError(error => of({ errorCode: error.code }))
+        );
+    }),
+    map((data: any) => {
+      if (data.errorCode) {
+        return new UserRegistrationFailed(data);
+      }
+    }),
+    filter(action => !!action)
   );
 
-  constructor(private actions$: Actions, private authService: AuthService, private router: Router) {}
+  constructor(
+    private actions$: Actions,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 }
