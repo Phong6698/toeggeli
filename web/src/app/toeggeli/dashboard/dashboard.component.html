@@ -1,13 +1,26 @@
 <h1>Dashboard</h1>
 
 <div class="row">
-  <div class="col-4 mb-5">
+  <div class="col-md-4 mb-5" *ngFor="let player of players; let index = index">
     <mat-card>
       <mat-card-header>
-        <div mat-card-avatar class="avatar"><img [src]="'https://www.gravatar.com/avatar/' + hash + '?s=40'"></div>
-        <mat-card-title>Steven Imhof</mat-card-title>
-        <mat-card-subtitle>aka angry steven</mat-card-subtitle>
+        <div mat-card-avatar class="avatar">
+          <div class="rank"
+               [ngClass]="{gold: index === 0, silver: index === 1, bronze: index === 2, others: index >= 3}">{{index + 1}}</div>
+        </div>
+        <mat-card-title>{{player.firstName}} {{player.lastName}}</mat-card-title>
+        <mat-card-subtitle>aka {{player.username}}</mat-card-subtitle>
       </mat-card-header>
+      <mat-card-content>
+        <mat-progress-bar [value]="player.wins / (player.wins + player.losses) * 100"></mat-progress-bar>
+        <p>Winrate: {{player.wins / (player.wins + player.losses) | percent}}</p>
+        <p>Wins: {{player.wins}}</p>
+        <p>Losses: {{player.losses}}</p>
+      </mat-card-content>
     </mat-card>
   </div>
 </div>
+
+<button mat-fab color="primary" class="new-game">
+  <mat-icon>add</mat-icon>
+</button>
