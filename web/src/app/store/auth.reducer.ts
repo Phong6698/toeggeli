@@ -48,6 +48,11 @@ export function authReducer(
 
 const selectAuth = (state: AppState) => state.auth;
 
+export const selectIsAuthenticated = createSelector(
+  selectAuth,
+  auth => (auth.user ? true : false)
+);
+
 export const selectAuthUser = createSelector(
   selectAuth,
   auth => auth.user
