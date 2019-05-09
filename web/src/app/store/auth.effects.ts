@@ -62,6 +62,7 @@ export class AuthEffects {
     ofType<UserLogoutRequested>(AuthActionTypes.UserLogoutRequested),
     tap(() => {
       this.authService.logout();
+      this.router.navigate(['/auth']);
     })
   );
 
