@@ -8,6 +8,7 @@ export enum ToeggeliActionTypes {
   SpacesRequested = '[Toeggeli] Spaces Requested',
   SpacesLoaded = '[Toeggeli] Spaces Loaded',
   AddSpaceRequested = '[Toeggeli] Add Space Requestet',
+  AddSpaceCreated = '[Toeggeli] Add Space Created',
   AddSpaceFailed = '[Toeggeli] Add Space Failed',
   SpaceUsersRequested = '[Toeggeli] Space Users Requested',
   SpaceUsersAdded = '[Toeggeli] Space Users added',
@@ -67,6 +68,10 @@ export class AddSpaceRequested implements Action {
   constructor(public payload: { spaceName: string }) {}
 }
 
+export class AddSpaceCreated implements Action {
+  readonly type = ToeggeliActionTypes.AddSpaceCreated;
+}
+
 export class AddSpaceFailed implements Action {
   readonly type = ToeggeliActionTypes.AddSpaceFailed;
 }
@@ -77,6 +82,7 @@ export type ToeggeliActions =
   | SpacesRequested
   | SpacesLoaded
   | AddSpaceRequested
+  | AddSpaceCreated
   | AddSpaceFailed
   | SpaceUsersRequested
   | SpaceUsersAdded

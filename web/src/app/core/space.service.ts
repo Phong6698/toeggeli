@@ -8,6 +8,6 @@ export class SpaceService {
   constructor(private angularFirestore: AngularFirestore) {}
 
   addSpace(spaceName) {
-    //this.angularFirestore.doc(`space???/${uid}`).valueChanges();
+    //this.angularFirestore.doc(`Space/${uid}`).valueChanges();
   }
 }

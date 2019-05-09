@@ -38,6 +38,12 @@ export function toeggeliReducer(
         spaces: action.payload.spaces
       };
 
+    case ToeggeliActionTypes.AddSpaceCreated:
+      return {
+        ...state,
+        hasAddSpaceError: false
+      };
+
     case ToeggeliActionTypes.AddSpaceFailed:
       return {
         ...state,
