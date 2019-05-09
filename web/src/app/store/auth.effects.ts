@@ -11,6 +11,7 @@ import {
   UserLoginFailed,
   UserLoginRequested,
   UserLogoutRequested,
+  UserRegistrationFailed,
   UserRegistrationRequested
 } from './auth.actions';
 
@@ -52,13 +53,6 @@ export class AuthEffects {
         );
     })
   );
-  // tap(action => {
-  //   this.authService
-  //     .doPasswordLogin(action.payload.email, action.payload.password)
-  //     .then(() => {
-  //       this.router.navigate(['/toeggeli']);
-  //     });
-  // })
 
   @Effect({ dispatch: false })
   logout$ = this.actions$.pipe(
@@ -68,12 +62,26 @@ export class AuthEffects {
     })
   );
 
-  @Effect({ dispatch: false })
+  @Effect()
   registration$ = this.actions$.pipe(
     ofType<UserRegistrationRequested>(
       AuthActionTypes.UserRegistrationRequested
     ),
-    tap(action => {
+    switchMap(action => {
+      return this.authService
+        .createUserWithEmailAndPassword(
+          action.payload.email,
+          action.payload.password
+        )
+        .pipe(
+          tap(() => this.router.navigate(['/toeggeli'])),
+          catchError(error =>
+            of(new UserRegistrationFailed({ errorCode: error.code }))
+          )
+        );
+    })
+
+    /*tap(action => {
       this.authService
         .createUserWithEmailAndPassword(
           action.payload.email,
@@ -82,7 +90,7 @@ export class AuthEffects {
         .then(() => {
           //this.router.navigate(['/toeggeli']);
         });
-    })
+    })*/
   );
 
   constructor(

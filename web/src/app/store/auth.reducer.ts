@@ -5,11 +5,13 @@ import { AuthActions, AuthActionTypes } from './auth.actions';
 export interface AuthState {
   user: UserInfo;
   loginErrorCode: string;
+  registrationErrorCode: string;
 }
 
 export const initialState: AuthState = {
   user: null,
-  loginErrorCode: null
+  loginErrorCode: null,
+  registrationErrorCode: null
 };
 
 export function authReducer(
@@ -32,6 +34,12 @@ export function authReducer(
         ...state,
         loginErrorCode: action.payload.errorCode
       };
+
+    case AuthActionTypes.UserRegistrationFailed:
+      return {
+        ...state,
+        registrationErrorCode: action.payload.errorCode
+      };
     default:
       return state;
   }
@@ -47,4 +55,9 @@ export const selectUserInfo = createSelector(
 export const selectUserLoginError = createSelector(
   selectUser,
   state => state.loginErrorCode
+);
+
+export const selectUserRegistrationError = createSelector(
+  selectUser,
+  state => state.registrationErrorCode
 );

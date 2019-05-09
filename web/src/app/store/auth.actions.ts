@@ -8,7 +8,8 @@ export enum AuthActionTypes {
   UserLogoutRequested = '[Auth] User Logout Requested',
   UserLoggedIn = '[Auth] User LoggedIn',
   UserLoggedOut = '[Auth] User LoggedOut',
-  UserRegistrationRequested = '[Auth] User Registration Requested'
+  UserRegistrationRequested = '[Auth] User Registration Requested',
+  UserRegistrationFailed = '[Auth] User Registration Failed'
 }
 
 export class UserLoginRequested implements Action {
@@ -47,6 +48,12 @@ export class UserRegistrationRequested implements Action {
   constructor(public payload: { email: string; password: string }) {}
 }
 
+export class UserRegistrationFailed implements Action {
+  readonly type = AuthActionTypes.UserRegistrationFailed;
+
+  constructor(public payload: { errorCode: string }) {}
+}
+
 export type AuthActions =
   | UserLoginRequested
   // | UserLoginSuccessful
@@ -54,4 +61,5 @@ export type AuthActions =
   | UserLogoutRequested
   | UserLoggedIn
   | UserLoggedOut
-  | UserRegistrationRequested;
+  | UserRegistrationRequested
+  | UserRegistrationFailed;

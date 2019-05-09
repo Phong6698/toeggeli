@@ -16,6 +16,10 @@
         <input matInput placeholder="Password" formControlName="password" />
       </mat-form-field>
 
+      <mat-error *ngIf="hasRegistrationError$ | async">
+        Error: {{ hasRegistrationError$ | async }}
+      </mat-error>
+
       <div class="form-element">
         <button
           mat-flat-button
