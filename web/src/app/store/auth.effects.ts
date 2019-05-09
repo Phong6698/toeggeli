@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType, ROOT_EFFECTS_INIT } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
 import { AuthService } from '../core/auth.service';
 import {
   AuthActionTypes,
@@ -42,23 +42,13 @@ export class AuthEffects {
   login$ = this.actions$.pipe(
     ofType<UserLoginRequested>(AuthActionTypes.UserLoginRequested),
     switchMap(action => {
-      return this.authService
-        .doPasswordLogin(action.payload.email, action.payload.password)
-        .pipe(
-          tap(() => this.router.navigate(['/toeggeli'])),
-          catchError(error =>
-            of(new UserLoginFailed({ errorCode: error.code }))
-          )
-        );
-    })
+      return this.authService.doPasswordLogin(action.payload.email, action.payload.password).pipe(
+        tap(() => this.router.navigate(['/toeggeli'])),
+        catchError(error => of(new UserLoginFailed({ errorCode: error.code })))
+      );
+    }),
+    filter(action => action instanceof UserLoginFailed)
   );
-  // tap(action => {
-  //   this.authService
-  //     .doPasswordLogin(action.payload.email, action.payload.password)
-  //     .then(() => {
-  //       this.router.navigate(['/toeggeli']);
-  //     });
-  // })
 
   @Effect({ dispatch: false })
   logout$ = this.actions$.pipe(
@@ -70,24 +60,13 @@ export class AuthEffects {
 
   @Effect({ dispatch: false })
   registration$ = this.actions$.pipe(
-    ofType<UserRegistrationRequested>(
-      AuthActionTypes.UserRegistrationRequested
-    ),
+    ofType<UserRegistrationRequested>(AuthActionTypes.UserRegistrationRequested),
     tap(action => {
-      this.authService
-        .createUserWithEmailAndPassword(
-          action.payload.email,
-          action.payload.password
-        )
-        .then(() => {
-          //this.router.navigate(['/toeggeli']);
-        });
+      this.authService.createUserWithEmailAndPassword(action.payload.email, action.payload.password).then(() => {
+        //this.router.navigate(['/toeggeli']);
+      });
     })
   );
 
-  constructor(
-    private actions$: Actions,
-    private authService: AuthService,
-    private router: Router
-  ) {}
+  constructor(private actions$: Actions, private authService: AuthService, private router: Router) {}
 }

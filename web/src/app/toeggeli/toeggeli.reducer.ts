@@ -1,3 +1,4 @@
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { ToeggeliActions, ToeggeliActionTypes } from './toeggeli.actions';
 
 export interface ToeggeliState {
@@ -20,3 +21,15 @@ export function toeggeliReducer(state = initialState, action: ToeggeliActions): 
       return state;
   }
 }
+
+export const selectToeggeli = createFeatureSelector<ToeggeliState>('toeggeli');
+
+export const selectToeggeliUser = createSelector(
+  selectToeggeli,
+  state => state.user
+);
+
+export const selectToeggeliUserSpaces = createSelector(
+  selectToeggeliUser,
+  user => user && user.spaces
+);

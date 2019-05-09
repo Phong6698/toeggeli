@@ -21,15 +21,15 @@ export const selectRouter = (state: AppState) => state.router;
 
 export const selectRouterState = createSelector(
   selectRouter,
-  router => router.state
+  router => router && router.state
 );
 
 export const selectRouterParams = createSelector(
   selectRouterState,
-  state => state.params
+  state => state && state.params
 );
 
 export const selectRouterParamSpaceId = createSelector(
   selectRouterParams,
-  params => params.spaceId
+  params => params && params.spaceId
 );
