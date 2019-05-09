@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { AppState } from '../../store/app-store.reducer';
-import { AddSpaceComponent } from '../../toeggeli/add-space/add-space.component';
 import {
   selectToeggeliSelectedSpaceName,
   selectToeggeliSpaces
@@ -27,11 +26,5 @@ export class SpaceSelectorComponent implements OnInit {
     );
   }
 
-  addSpace() {
-    this.dialog.open(AddSpaceComponent, {
-      data: {
-        animal: 'panda'
-      }
-    });
-  }
+  addSpace() {}
 }

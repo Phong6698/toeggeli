@@ -9,6 +9,7 @@ export interface ToeggeliState {
   user: User;
   spaces: Space[];
   spaceUsers: EntityState<User>;
+  hasAddSpaceError: boolean;
 }
 
 export const spaceUserAdapter = createEntityAdapter<User>();
@@ -16,10 +17,14 @@ export const spaceUserAdapter = createEntityAdapter<User>();
 export const initialState: ToeggeliState = {
   user: null,
   spaces: null,
+  hasAddSpaceError: false,
   spaceUsers: spaceUserAdapter.getInitialState()
 };
 
-export function toeggeliReducer(state = initialState, action: ToeggeliActions): ToeggeliState {
+export function toeggeliReducer(
+  state = initialState,
+  action: ToeggeliActions
+): ToeggeliState {
   switch (action.type) {
     case ToeggeliActionTypes.UserLoaded:
       return {
@@ -31,6 +36,12 @@ export function toeggeliReducer(state = initialState, action: ToeggeliActions): 
       return {
         ...state,
         spaces: action.payload.spaces
+      };
+
+    case ToeggeliActionTypes.AddSpaceFailed:
+      return {
+        ...state,
+        hasAddSpaceError: true
       };
 
     case ToeggeliActionTypes.SpaceUsersAdded:
@@ -51,7 +62,10 @@ export function toeggeliReducer(state = initialState, action: ToeggeliActions): 
     case ToeggeliActionTypes.SpaceUsersRemoved:
       return {
         ...state,
-        spaceUsers: spaceUserAdapter.removeOne((action.payload as any).id, state.spaceUsers)
+        spaceUsers: spaceUserAdapter.removeOne(
+          (action.payload as any).id,
+          state.spaceUsers
+        )
       };
 
     default:
@@ -88,6 +102,11 @@ export const selectToeggeliSelectedSpace = createSelector(
   }
 );
 
+export const selectToeggeliAddSpaceError = createSelector(
+  selectToeggeli,
+  state => state.hasAddSpaceError
+);
+
 export const selectToeggeliSelectedSpaceId = createSelector(
   selectToeggeliSelectedSpace,
   space => space && space.spaceId
@@ -103,6 +122,9 @@ export const selectToeggeliSpaceUsers = createSelector(
   state => state.spaceUsers
 );
 
-export const { selectIds, selectEntities, selectAll, selectTotal } = spaceUserAdapter.getSelectors(
-  selectToeggeliSpaceUsers
-);
+export const {
+  selectIds,
+  selectEntities,
+  selectAll,
+  selectTotal
+} = spaceUserAdapter.getSelectors(selectToeggeliSpaceUsers);

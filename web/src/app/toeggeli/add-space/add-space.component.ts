@@ -1,8 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { AppState } from '../../store/app-store.reducer';
+import { AddSpaceRequested } from '../toeggeli.actions';
+import { selectToeggeliAddSpaceError } from '../toeggeli.reducer';
 
 @Component({
   selector: 'app-add-space',
@@ -11,6 +14,7 @@ import { AppState } from '../../store/app-store.reducer';
 })
 export class AddSpaceComponent implements OnInit {
   formGroup: FormGroup;
+  hasAddSpaceError$: Observable<any>;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -19,12 +23,16 @@ export class AddSpaceComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.hasAddSpaceError$ = this.store.pipe(
+      select(selectToeggeliAddSpaceError)
+    );
+
     this.formGroup = this.formBuilder.group({
       spaceName: [null, [Validators.required]]
     });
   }
 
   onSubmit(data) {
-    console.log(data);
+    this.store.dispatch(new AddSpaceRequested({ spaceName: data.spaceName }));
   }
 }
