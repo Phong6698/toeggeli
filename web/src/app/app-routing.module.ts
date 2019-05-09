@@ -4,18 +4,13 @@ import { AuthGuard } from './core/auth.guard';
 
 const routes: Routes = [
   {
-    path: '',
-    redirectTo: 'auth',
-    pathMatch: 'full'
-  },
-  {
-    path: 'toeggeli',
-    loadChildren: './toeggeli/toeggeli.module#ToeggeliModule',
-    canActivate: [AuthGuard]
-  },
-  {
     path: 'auth',
     loadChildren: './auth/auth.module#AuthModule'
+  },
+  {
+    path: '',
+    loadChildren: './toeggeli/toeggeli.module#ToeggeliModule',
+    canActivate: [AuthGuard]
   }
 ];
 

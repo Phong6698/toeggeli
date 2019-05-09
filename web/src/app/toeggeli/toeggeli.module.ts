@@ -1,26 +1,42 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatButtonModule, MatCardModule, MatIconModule, MatProgressBarModule } from '@angular/material';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  MatButtonModule,
+  MatCardModule,
+  MatDialogModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+  MatProgressBarModule
+} from '@angular/material';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { AddSpaceComponent } from './add-space/add-space.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { ToeggeliRoutingModule } from './toeggeli-routing.module';
 import { SpaceComponent } from './space/space.component';
+import { ToeggeliRoutingModule } from './toeggeli-routing.module';
 import { ToeggeliEffects } from './toeggeli.effects';
 import { toeggeliReducer } from './toeggeli.reducer';
 
 @NgModule({
-  declarations: [DashboardComponent, SpaceComponent],
-  exports: [SpaceComponent],
+  declarations: [DashboardComponent, SpaceComponent, AddSpaceComponent],
+  exports: [SpaceComponent, AddSpaceComponent],
   imports: [
+    FormsModule,
+    ReactiveFormsModule,
     CommonModule,
     MatButtonModule,
     MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
     MatIconModule,
+    MatDialogModule,
     MatProgressBarModule,
     EffectsModule.forFeature([ToeggeliEffects]),
     StoreModule.forFeature('toeggeli', toeggeliReducer),
     ToeggeliRoutingModule
-  ]
+  ],
+  entryComponents: [AddSpaceComponent]
 })
 export class ToeggeliModule {}

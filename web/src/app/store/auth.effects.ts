@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { Actions, Effect, ofType, ROOT_EFFECTS_INIT } from '@ngrx/effects';
-import { of } from 'rxjs';
-import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
-import { AuthService } from '../core/auth.service';
-import { UserRequested } from '../toeggeli/toeggeli.actions';
+import {Injectable} from '@angular/core';
+import {Router} from '@angular/router';
+import {Actions, Effect, ofType, ROOT_EFFECTS_INIT} from '@ngrx/effects';
+import {of} from 'rxjs';
+import {catchError, filter, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
+import {AuthService} from '../core/auth.service';
+import {UserService} from '../core/user.service';
+import {UserRequested} from '../toeggeli/toeggeli.actions';
 import {
   AuthActionTypes,
   UserLoggedIn,
@@ -13,11 +14,16 @@ import {
   UserLoginRequested,
   UserLogoutRequested,
   UserRegistrationFailed,
-  UserRegistrationRequested
+  UserRegistrationRequested,
+  UserCreationRequested
 } from './auth.actions';
 
 @Injectable()
 export class AuthEffects {
+
+  constructor(private actions$: Actions, private authService: AuthService, private userService: UserService, private router: Router) {
+  }
+
   @Effect()
   init$ = this.actions$.pipe(
     ofType(ROOT_EFFECTS_INIT),
@@ -32,7 +38,7 @@ export class AuthEffects {
           providerId: user.providerId,
           uid: user.uid
         };
-        return new UserLoggedIn({ user: profile });
+        return new UserLoggedIn({user: profile});
       } else {
         // this.router.navigate(['/auth']);
         return new UserLoggedOut();
@@ -47,8 +53,8 @@ export class AuthEffects {
       return this.authService
         .doPasswordLogin(action.payload.email, action.payload.password)
         .pipe(
-          tap(() => this.router.navigate(['/toeggeli'])),
-          catchError(error => of({ errorCode: error.code }))
+          tap(() => this.router.navigate(['/'])),
+          catchError(error => of({errorCode: error.code}))
         );
     }),
     map((data: any) => {
@@ -59,7 +65,7 @@ export class AuthEffects {
     filter(action => !!action)
   );
 
-  @Effect({ dispatch: false })
+  @Effect({dispatch: false})
   logout$ = this.actions$.pipe(
     ofType<UserLogoutRequested>(AuthActionTypes.UserLogoutRequested),
     tap(() => {
@@ -75,22 +81,44 @@ export class AuthEffects {
       AuthActionTypes.UserRegistrationRequested
     ),
     switchMap(action => {
-      return this.authService
-        .createUserWithEmailAndPassword(
-          action.payload.email,
-          action.payload.password
-        )
-        .pipe(
-          tap(() => this.router.navigate(['/toeggeli'])),
-          catchError(error => of({ errorCode: error.code }))
-        );
+      return this.authService.createUserWithEmailAndPassword(action.payload.email, action.payload.password).pipe(
+        map(user => {
+          return {
+            uid: user.user.uid,
+            username: action.payload.username,
+            firstName: action.payload.firstName,
+            lastName: action.payload.lastName
+          };
+        }),
+        catchError(error => of({errorCode: error.code}))
+      );
     }),
     map((data: any) => {
       if (data.errorCode) {
         return new UserRegistrationFailed(data);
+      } else {
+        return new UserCreationRequested({
+          uid: data.uid,
+          username: data.username,
+          firstName: data.firstName,
+          lastName: data.lastName
+        });
       }
-    }),
-    filter(action => !!action)
+    })
+  );
+
+  @Effect()
+  createUser$ = this.actions$.pipe(
+    ofType<UserCreationRequested>(AuthActionTypes.UserCreationRequested),
+    switchMap(action => {
+      return this.userService.createUser(
+        action.payload.uid,
+        action.payload.username,
+        action.payload.firstName,
+        action.payload.lastName).pipe(
+        tap(() => this.router.navigate(['/']))
+      );
+    })
   );
 
   @Effect()
@@ -99,9 +127,4 @@ export class AuthEffects {
     map(() => new UserRequested())
   );
 
-  constructor(
-    private actions$: Actions,
-    private authService: AuthService,
-    private router: Router
-  ) {}
 }

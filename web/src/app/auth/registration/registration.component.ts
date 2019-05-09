@@ -26,6 +26,9 @@ export class RegistrationComponent implements OnInit {
     );
 
     this.formGroup = this.formBuilder.group({
+      username: [null, Validators.required],
+      firstName: [null, Validators.required],
+      lastName: [null, Validators.required],
       email: [null, [Validators.required]],
       password: [null, [Validators.required]]
     });
@@ -34,6 +37,9 @@ export class RegistrationComponent implements OnInit {
   onSubmit(data) {
     this.store.dispatch(
       new UserRegistrationRequested({
+        username: data.username,
+        firstName: data.firstName,
+        lastName: data.lastName,
         email: data.email,
         password: data.password
       })

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatButtonModule, MatIconModule, MatListModule, MatMenuModule, MatToolbarModule } from '@angular/material';
+import { MatButtonModule, MatIconModule, MatListModule, MatMenuModule, MatToolbarModule, MatDividerModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { ToeggeliModule } from '../toeggeli/toeggeli.module';
 import { MenuComponent } from './menu/menu.component';
@@ -18,7 +18,9 @@ import { SpaceSelectorComponent } from './space-selector/space-selector.componen
     MatMenuModule,
     MatButtonModule,
     RouterModule,
-    ToeggeliModule
+    ToeggeliModule,
+    MatDividerModule,
+    RouterModule
   ]
 })
 export class SharedModule {}

@@ -25,20 +25,28 @@ export class ToeggeliEffects {
   userRequested$ = this.actions$.pipe(
     ofType<UserRequested>(ToeggeliActionTypes.UserRequested),
     withLatestFrom(this.store.select(selectAuthUserId)),
-    switchMap(([action, uid]) => this.angularFirestore.doc(`Users/${uid}`).valueChanges()),
+    switchMap(([action, uid]) =>
+      this.angularFirestore.doc(`Users/${uid}`).valueChanges()
+    ),
     map(user => new UserLoaded({ user: user as User }))
   );
 
   @Effect()
   userLoaded$ = this.actions$.pipe(
     ofType<UserLoaded>(ToeggeliActionTypes.UserLoaded),
-    withLatestFrom(this.store.select(selectRouterParamSpaceId), this.store.select(selectToeggeliUserSpaces)),
+    withLatestFrom(
+      this.store.select(selectRouterParamSpaceId),
+      this.store.select(selectToeggeliUserSpaces)
+    ),
     tap(([action, spaceId, userSpaces]) => {
       if (!spaceId && userSpaces && userSpaces[0]) {
-        this.router.navigateByUrl(`/toeggeli/${userSpaces[0]}`);
+        this.router.navigateByUrl(`/${userSpaces[0]}`);
       }
     }),
-    map(([action, spaceId, userSpaces]) => new SpacesRequested({ spaces: userSpaces }))
+    map(
+      ([action, spaceId, userSpaces]) =>
+        new SpacesRequested({ spaces: userSpaces })
+    )
   );
 
   @Effect()
@@ -61,7 +69,12 @@ export class ToeggeliEffects {
       );
 
       return combineLatest(spaceCollections).pipe(
-        map(spacesCol => spacesCol.reduce((previousValue, currentValue) => [...previousValue, currentValue], []))
+        map(spacesCol =>
+          spacesCol.reduce(
+            (previousValue, currentValue) => [...previousValue, currentValue],
+            []
+          )
+        )
       );
     }),
     map(spaces => {
