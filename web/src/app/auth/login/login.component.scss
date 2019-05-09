@@ -1,12 +1,18 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  margin-left: -16px;
+}
+
 .form {
-  min-width: 150px;
   max-width: 500px;
-  width: 100%;
-  margin: 0 auto;
 }
 
 .form-element {
-  padding: 5px 0px 5px 2px;
   width: 100%;
 }
 

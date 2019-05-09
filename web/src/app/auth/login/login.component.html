@@ -1,19 +1,15 @@
-<mat-card style="margin-top: 2rem">
+<mat-card class="mt-5">
   <mat-card-header>
-    <mat-card-title>Login</mat-card-title>
+    <mat-card-title class="title">Login</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <form
-      [formGroup]="formGroup"
-      (ngSubmit)="onSubmit(formGroup.value)"
-      class="form"
-    >
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form">
       <mat-form-field class="form-element">
         <input matInput placeholder="E-Mail" formControlName="email" />
       </mat-form-field>
 
       <mat-form-field class="form-element">
-        <input matInput placeholder="Password" formControlName="password" />
+        <input matInput type="password" placeholder="Password" formControlName="password" />
       </mat-form-field>
 
       <mat-error *ngIf="hasLoginError$ | async">
@@ -21,24 +17,13 @@
       </mat-error>
 
       <div class="form-element">
-        <button
-          mat-flat-button
-          color="primary"
-          type="submit"
-          class="button"
-          [disabled]="!formGroup.valid"
-        >
+        <button mat-flat-button color="primary" type="submit" class="button" [disabled]="!formGroup.valid">
           Login
         </button>
       </div>
 
       <div class="form-element">
-        <button
-          [routerLink]="['/auth/register']"
-          mat-raised-button
-          color="primary"
-          class="button"
-        >
+        <button [routerLink]="['/auth/register']" mat-button  color="primary" class="button">
           Registrieren
         </button>
       </div>
