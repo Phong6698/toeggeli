@@ -3,7 +3,10 @@
     <app-menu (logout)="logout()"></app-menu>
   </mat-sidenav>
   <mat-sidenav-content>
-    <app-header (toggleMenu)="sidenav.toggle()"></app-header>
+    <app-header
+      (toggleMenu)="sidenav.toggle()"
+      [isAuthenticated]="isAuthenticated$ | async"
+    ></app-header>
     <main class="container">
       <router-outlet></router-outlet>
     </main>

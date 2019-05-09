@@ -44,10 +44,12 @@ export class AuthEffects {
   login$ = this.actions$.pipe(
     ofType<UserLoginRequested>(AuthActionTypes.UserLoginRequested),
     switchMap(action => {
-      return this.authService.doPasswordLogin(action.payload.email, action.payload.password).pipe(
-        tap(() => this.router.navigate(['/toeggeli'])),
-        catchError(error => of({ errorCode: error.code }))
-      );
+      return this.authService
+        .doPasswordLogin(action.payload.email, action.payload.password)
+        .pipe(
+          tap(() => this.router.navigate(['/toeggeli'])),
+          catchError(error => of({ errorCode: error.code }))
+        );
     }),
     map((data: any) => {
       if (data.errorCode) {
@@ -62,18 +64,26 @@ export class AuthEffects {
     ofType<UserLogoutRequested>(AuthActionTypes.UserLogoutRequested),
     tap(() => {
       this.authService.logout();
+      console.log('lol???');
       this.router.navigate(['/auth']);
     })
   );
 
   @Effect()
   registration$ = this.actions$.pipe(
-    ofType<UserRegistrationRequested>(AuthActionTypes.UserRegistrationRequested),
+    ofType<UserRegistrationRequested>(
+      AuthActionTypes.UserRegistrationRequested
+    ),
     switchMap(action => {
-      return this.authService.createUserWithEmailAndPassword(action.payload.email, action.payload.password).pipe(
-        tap(() => this.router.navigate(['/toeggeli'])),
-        catchError(error => of({ errorCode: error.code }))
-      );
+      return this.authService
+        .createUserWithEmailAndPassword(
+          action.payload.email,
+          action.payload.password
+        )
+        .pipe(
+          tap(() => this.router.navigate(['/toeggeli'])),
+          catchError(error => of({ errorCode: error.code }))
+        );
     }),
     map((data: any) => {
       if (data.errorCode) {
@@ -89,5 +99,9 @@ export class AuthEffects {
     map(() => new UserRequested())
   );
 
-  constructor(private actions$: Actions, private authService: AuthService, private router: Router) {}
+  constructor(
+    private actions$: Actions,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 }

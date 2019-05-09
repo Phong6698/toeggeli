@@ -1,11 +1,15 @@
 <mat-toolbar color="primary" class="header">
   <div>
-    <button mat-icon-button (click)="menuButtonClicked()">
+    <button
+      mat-icon-button
+      *ngIf="isAuthenticated"
+      (click)="menuButtonClicked()"
+    >
       <mat-icon>menu</mat-icon>
     </button>
     Toeggeli Web
   </div>
-  <div>
+  <div *ngIf="isAuthenticated">
     <button mat-button [matMenuTriggerFor]="groupMenu">
       Raiffeisen
       <mat-icon>keyboard_arrow_down</mat-icon>
