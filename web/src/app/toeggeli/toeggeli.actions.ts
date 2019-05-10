@@ -1,6 +1,7 @@
-import { Action } from '@ngrx/store';
-import { Space } from './space';
-import { User } from './user';
+import {Action} from '@ngrx/store';
+import {Match} from '../core/match.service';
+import {Space} from './space';
+import {User} from './user';
 
 export enum ToeggeliActionTypes {
   UserRequested = '[Toeggeli] User Requested',
@@ -8,11 +9,13 @@ export enum ToeggeliActionTypes {
   SpacesRequested = '[Toeggeli] Spaces Requested',
   SpacesLoaded = '[Toeggeli] Spaces Loaded',
   AddSpaceRequested = '[Toeggeli] Add Space Requestet',
+  AddSpaceCreated = '[Toeggeli] Add Space Created',
   AddSpaceFailed = '[Toeggeli] Add Space Failed',
   SpaceUsersRequested = '[Toeggeli] Space Users Requested',
   SpaceUsersAdded = '[Toeggeli] Space Users added',
   SpaceUsersModified = '[Toeggeli] Space Users modified',
-  SpaceUsersRemoved = '[Toeggeli] Space Users removed'
+  SpaceUsersRemoved = '[Toeggeli] Space Users removed',
+  MatchCreationRequested = '[Toeggeli] Match Creation Reaquestd'
 }
 
 export class UserRequested implements Action {
@@ -67,8 +70,18 @@ export class AddSpaceRequested implements Action {
   constructor(public payload: { spaceName: string }) {}
 }
 
+export class AddSpaceCreated implements Action {
+  readonly type = ToeggeliActionTypes.AddSpaceCreated;
+}
+
 export class AddSpaceFailed implements Action {
   readonly type = ToeggeliActionTypes.AddSpaceFailed;
+}
+
+export class MatchCreationRequested implements Action {
+  readonly type = ToeggeliActionTypes.MatchCreationRequested;
+
+  constructor(public payload: { match: Match }) {}
 }
 
 export type ToeggeliActions =
@@ -77,8 +90,10 @@ export type ToeggeliActions =
   | SpacesRequested
   | SpacesLoaded
   | AddSpaceRequested
+  | AddSpaceCreated
   | AddSpaceFailed
   | SpaceUsersRequested
   | SpaceUsersAdded
   | SpaceUsersModified
-  | SpaceUsersRemoved;
+  | SpaceUsersRemoved
+  | MatchCreationRequested;

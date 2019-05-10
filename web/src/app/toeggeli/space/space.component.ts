@@ -16,7 +16,6 @@ export class SpaceComponent implements OnInit {
 
   ngOnInit() {
     this.store.select(selectRouterParamSpaceId).subscribe(spaceId => {
-      console.log(1);
       this.store.dispatch(new SpaceUsersRequested({ spaceId }));
     });
   }
