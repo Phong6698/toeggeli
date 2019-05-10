@@ -14,9 +14,9 @@ export class NewMatchComponent implements OnInit {
   newMatch: Match = {
     players: [
       {userID: 'userID_Player1', side: 'blue'},
-      {userID: 'userID_Player1', side : 'blue'},
-      {userID: 'userID_Player1', side : 'red'},
-      {userID: 'userID_Player1', side : 'red'}
+      {userID: 'userID_Player2', side : 'blue'},
+      {userID: 'userID_Player3', side : 'red'},
+      {userID: 'userID_Player4', side : 'red'}
     ],
     blueScore : 10,
     redScore : 6,
@@ -30,6 +30,7 @@ export class NewMatchComponent implements OnInit {
   }
 
   createNewMatch() {
+    console.log('create new match button');
     this.store.dispatch(new MatchCreationRequested({match: this.newMatch}));
   }
 
