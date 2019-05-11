@@ -10,12 +10,17 @@ const routes: Routes = [
     component: SpaceComponent,
     children: [
       {
-        path: '',
+        path: 'dashboard',
         component: DashboardComponent
       },
       {
         path: 'new-match',
         component: NewMatchComponent
+      },
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'dashboard'
       }
     ]
   }
