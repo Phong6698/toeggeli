@@ -8,14 +8,14 @@ export enum ToeggeliActionTypes {
   UserLoaded = '[Toeggeli] User Loaded',
   SpacesRequested = '[Toeggeli] Spaces Requested',
   SpacesLoaded = '[Toeggeli] Spaces Loaded',
-  AddSpaceRequested = '[Toeggeli] Add Space Requestet',
+  AddSpaceRequested = '[Toeggeli] Add Space Requested',
   AddSpaceCreated = '[Toeggeli] Add Space Created',
   AddSpaceFailed = '[Toeggeli] Add Space Failed',
   SpaceUsersRequested = '[Toeggeli] Space Users Requested',
   SpaceUsersAdded = '[Toeggeli] Space Users added',
   SpaceUsersModified = '[Toeggeli] Space Users modified',
   SpaceUsersRemoved = '[Toeggeli] Space Users removed',
-  MatchCreationRequested = '[Toeggeli] Match Creation Reaquestd'
+  MatchCreationRequested = '[Toeggeli] Match Creation Reaquested'
 }
 
 export class UserRequested implements Action {
