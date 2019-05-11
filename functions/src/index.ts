@@ -14,21 +14,26 @@ export const helloWorld = functions.region('europe-west1').https.onRequest((requ
 
 export const updateStatistics = functions.region('europe-west1')
     .firestore.document('Matches/{matchID}').onCreate((snap, context) => {
+
         const createdMatch: any = snap.data();
-        return createdMatch.players.forEach((player: any) => {
+        createdMatch.players.forEach((player: any) => {
 
             const didPlayerWon = (player.side === 'blue' && createdMatch.blueScore === 10) ||
                 (player.side === 'red' && createdMatch.redScore === 10);
 
-            return admin.firestore().collection('Statistics')
+            const statisticQuery = admin.firestore().collection('Statistics')
                 .where('userID', '==', player.userID)
-                .where('spaceID', '==', createdMatch.spaceID)
-                .get().then(docSnap => {
+                .where('spaceID', '==', createdMatch.spaceID);
+
+            // Transactionnal
+            return admin.firestore().runTransaction(transaction => {
+
+                return transaction.get(statisticQuery).then(docSnap => {
 
                     if (!docSnap.empty) {
                         const statisticDoc = docSnap.docs[0];
                         const updateData = didPlayerWon ? { wins: statisticDoc.data().wins + 1 } : { losses: statisticDoc.data().losses + 1 };
-                        return statisticDoc.ref.update(updateData);
+                        return transaction.update(statisticDoc.ref, updateData);
                     } else {
                         let wins = 0;
                         let losses = 0;
@@ -44,10 +49,13 @@ export const updateStatistics = functions.region('europe-west1')
                             spaceID: createdMatch.spaceID,
                             userID: player.userID
                         };
-                        return admin.firestore().collection('Statistics').doc().set(newStatsistics);
+                        return transaction.set(admin.firestore().collection('Statistics').doc(), newStatsistics);
                     }
 
-                })
-                .catch(() => console.error('Could not get Statistics'));
+                }).catch(() => console.error('Could not get Statistics'));
+            });
         });
+
+        return true;
+
     });
