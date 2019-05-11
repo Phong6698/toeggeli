@@ -102,7 +102,7 @@ export class ToeggeliEffects {
     })
   );
 
-  @Effect()
+  @Effect({dispatch: false})
   matchCreationRequested$ = this.actions$.pipe(
     ofType<MatchCreationRequested>(ToeggeliActionTypes.MatchCreationRequested),
     switchMap(action => {
