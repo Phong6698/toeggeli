@@ -12,6 +12,7 @@ import {
   tap,
   withLatestFrom
 } from 'rxjs/operators';
+import { MatchService } from '../core/match.service';
 import { SpaceService } from '../core/space.service';
 import { AppState, selectRouterParamSpaceId } from '../store/app-store.reducer';
 import { selectAuthUserId } from '../store/auth.reducer';
@@ -19,6 +20,7 @@ import {
   AddSpaceCreated,
   AddSpaceFailed,
   AddSpaceRequested,
+  MatchCreationRequested,
   SpacesLoaded,
   SpacesRequested,
   SpaceUsersRequested,
@@ -138,11 +140,20 @@ export class ToeggeliEffects {
     })
   );
 
+  @Effect({ dispatch: false })
+  matchCreationRequested$ = this.actions$.pipe(
+    ofType<MatchCreationRequested>(ToeggeliActionTypes.MatchCreationRequested),
+    switchMap(action => {
+      return this.matchService.createMatch(action.payload.match).pipe(tap());
+    })
+  );
+
   constructor(
     private actions$: Actions<ToeggeliActions>,
     private store: Store<AppState>,
     private angularFirestore: AngularFirestore,
     private router: Router,
-    private spaceService: SpaceService
+    private spaceService: SpaceService,
+    private matchService: MatchService
   ) {}
 }
