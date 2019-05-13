@@ -1,15 +1,40 @@
 
-<button mat-flat-button color="primary" class="mt-1" (click)="createNewMatch()">
-  Create New Sample Match
-</button>
-<!-- <mat-card>
-  <div class="row">
-    <div class="col">
-      TEam1
+<div class="row justify-content-center mt-3">
+  <div class="col">
+    <div class="row justify-content-center mb-2">
+      <mat-card class="col-11 col-lg-6">
+        <mat-card-title class="text-center">Team Blue</mat-card-title>
+        <div class="row justify-content-around">
+            <div class="col text-center">
+                <button mat-raised-button class="team-blue-player-button">Player</button>
+            </div>
+            <div class="col text-center">
+                <button mat-raised-button class="team-blue-player-button">Player</button>
+            </div>
+          </div>
+      </mat-card>
     </div>
-    <div class="col-2">VS</div>
-    <div class="col">
-      Team2
-    </div>
+    <div class="row"></div>
+    <div class="row"></div>
+    <div class="row justify-content-center">
+        <mat-card class="col-11 col-lg-6">
+            <mat-card-title class="text-center">Team Red</mat-card-title>
+            <div class="row justify-content-around">
+                <div class="col text-center">
+                    <button mat-raised-button class="team-red-player-button">Player</button>
+                </div>
+                <div class="col text-center">
+                    <button mat-raised-button class="team-red-player-button">Player</button>
+                </div>
+              </div>
+          </mat-card>
+      </div>
   </div>
-</mat-card> -->
+</div>
+
+
+<button mat-flat-button color="primary" class="mt-1" (click)="createNewMatch()">
+    Create New Sample Match
+  </button>
+
+
