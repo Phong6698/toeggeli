@@ -5,10 +5,12 @@ import {
   MatButtonModule,
   MatCardModule,
   MatDialogModule,
+  MatDividerModule,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
-  MatProgressBarModule
+  MatProgressBarModule,
+  MatSelectModule
 } from '@angular/material';
 import {EffectsModule} from '@ngrx/effects';
 import {StoreModule} from '@ngrx/store';
@@ -34,6 +36,8 @@ import {NewMatchComponent} from './new-match/new-match.component';
     MatIconModule,
     MatDialogModule,
     MatProgressBarModule,
+    MatSelectModule,
+    MatDividerModule,
     EffectsModule.forFeature([ToeggeliEffects]),
     StoreModule.forFeature('toeggeli', toeggeliReducer),
     ToeggeliRoutingModule

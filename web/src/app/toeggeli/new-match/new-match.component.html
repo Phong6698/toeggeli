@@ -1,40 +1,74 @@
-
 <div class="row justify-content-center mt-3">
   <div class="col">
     <div class="row justify-content-center mb-2">
       <mat-card class="col-11 col-lg-6">
         <mat-card-title class="text-center">Team Blue</mat-card-title>
         <div class="row justify-content-around">
-            <div class="col text-center">
-                <button mat-raised-button class="team-blue-player-button">Player</button>
-            </div>
-            <div class="col text-center">
-                <button mat-raised-button class="team-blue-player-button">Player</button>
-            </div>
+          <div class="col text-center">
+            <button mat-raised-button class="team-blue-player-button">Player</button>
           </div>
+          <div class="col text-center">
+            <button mat-raised-button class="team-blue-player-button">Player</button>
+          </div>
+        </div>
       </mat-card>
     </div>
-    <div class="row"></div>
-    <div class="row"></div>
-    <div class="row justify-content-center">
-        <mat-card class="col-11 col-lg-6">
-            <mat-card-title class="text-center">Team Red</mat-card-title>
-            <div class="row justify-content-around">
-                <div class="col text-center">
-                    <button mat-raised-button class="team-red-player-button">Player</button>
-                </div>
-                <div class="col text-center">
-                    <button mat-raised-button class="team-red-player-button">Player</button>
-                </div>
-              </div>
-          </mat-card>
+    <div class="row">
+      <div class="col text-center">
+        <button mat-icon-button (click)="decreaseBlueScore()">
+          <mat-icon>remove_circle</mat-icon>
+        </button>
+        <mat-form-field class="ml-2 mr-2 score-select">
+          <mat-select [(value)]="newMatch.blueScore">
+            <mat-option *ngFor="let score of scores" [value]="score">
+              {{score}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-icon-button (click)="increaseBlueScore()">
+          <mat-icon>add_circle</mat-icon>
+        </button>
       </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="row">
+        <div class="col text-center">
+          <button mat-icon-button (click)="decreaseRedScore()">
+            <mat-icon>remove_circle</mat-icon>
+          </button>
+          <mat-form-field class="ml-2 mr-2 score-select">
+            <mat-select [(value)]="newMatch.redScore">
+              <mat-option *ngFor="let score of scores" [value]="score">
+                {{score}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button mat-icon-button (click)="increaseRedScore()">
+            <mat-icon>add_circle</mat-icon>
+          </button>
+        </div>
+      </div>
+    <div class="row justify-content-center">
+      <mat-card class="col-11 col-lg-6">
+        <mat-card-title class="text-center">Team Red</mat-card-title>
+        <div class="row justify-content-around">
+          <div class="col text-center">
+            <button mat-raised-button class="team-red-player-button">Player</button>
+          </div>
+          <div class="col text-center">
+            <button mat-raised-button class="team-red-player-button">Player</button>
+          </div>
+        </div>
+      </mat-card>
+    </div>
   </div>
 </div>
 
 
 <button mat-flat-button color="primary" class="mt-1" (click)="createNewMatch()">
-    Create New Sample Match
-  </button>
+  Create New Sample Match
+</button>
 
-
+<pre>
+  {{newMatch | json}}
+</pre>
