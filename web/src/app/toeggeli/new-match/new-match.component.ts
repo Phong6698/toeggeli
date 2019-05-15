@@ -38,6 +38,8 @@ export class NewMatchComponent implements OnInit {
     this.store.dispatch(new MatchCreationRequested({match: this.newMatch}));
   }
 
+  // FIXME angular (module toeggeli) does not detect changes until click somewhere else or change menu in sidenav
+
   increaseBlueScore() {
     if (this.newMatch.blueScore < 10) {
       this.newMatch.blueScore++;
