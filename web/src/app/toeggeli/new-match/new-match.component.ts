@@ -14,24 +14,52 @@ export class NewMatchComponent implements OnInit {
   newMatch: Match = {
     players: [
       {userID: 'userID_Player1', side: 'blue'},
-      {userID: 'userID_Player2', side : 'blue'},
-      {userID: 'userID_Player3', side : 'red'},
-      {userID: 'userID_Player4', side : 'red'}
+      {userID: 'userID_Player2', side: 'blue'},
+      {userID: 'userID_Player3', side: 'red'},
+      {userID: 'userID_Player4', side: 'red'}
     ],
-    blueScore : 10,
-    redScore : 6,
-    spaceID : 'spaceID_Raiffeisen',
-    timestamp : new Date()
+    blueScore: 0,
+    redScore: 0,
+    spaceID: 'spaceID_Raiffeisen',
+    timestamp: new Date()
   };
 
-  constructor(private store: Store<AppState>) { }
+  scores = [
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+  ];
+
+  constructor(private store: Store<AppState>) {
+  }
 
   ngOnInit() {
   }
 
   createNewMatch() {
-    console.log('create new match button');
     this.store.dispatch(new MatchCreationRequested({match: this.newMatch}));
   }
 
+  increaseBlueScore() {
+    if (this.newMatch.blueScore < 10) {
+      this.newMatch.blueScore++;
+    }
+  }
+
+  decreaseBlueScore() {
+    if (this.newMatch.blueScore > 0) {
+      this.newMatch.blueScore--;
+    }
+  }
+
+  increaseRedScore() {
+    if (this.newMatch.redScore < 10) {
+      this.newMatch.redScore++;
+    }
+  }
+
+  decreaseRedScore() {
+    if (this.newMatch.redScore > 0) {
+      this.newMatch.redScore--;
+    }
+  }
 }
+
