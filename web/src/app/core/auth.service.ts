@@ -23,4 +23,16 @@ export class AuthService {
   logout() {
     this.afAuth.auth.signOut();
   }
+
+  getCurrentUser() {
+    return new Promise<any>((resolve, reject) => {
+      this.afAuth.auth.onAuthStateChanged(user => {
+        if (user) {
+          resolve(user);
+        } else {
+          reject('No user logged in');
+        }
+      });
+    });
+  }
 }
