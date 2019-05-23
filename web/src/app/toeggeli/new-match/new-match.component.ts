@@ -3,6 +3,8 @@ import {Store} from '@ngrx/store';
 import {AppState} from 'src/app/store/app-store.reducer';
 import {MatchCreationRequested} from '../toeggeli.actions';
 import {Match} from 'src/app/core/match.service';
+import {PlayerSelectDialogComponent} from '../player-select-dialog/player-select-dialog.component';
+import {MatDialog} from '@angular/material';
 
 @Component({
   selector: 'app-new-match',
@@ -28,7 +30,7 @@ export class NewMatchComponent implements OnInit {
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
   ];
 
-  constructor(private store: Store<AppState>) {
+  constructor(private store: Store<AppState>, public dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -62,6 +64,32 @@ export class NewMatchComponent implements OnInit {
     if (this.newMatch.redScore > 0) {
       this.newMatch.redScore--;
     }
+  }
+
+  openPlayerSelectDialog() {
+    /*
+    const playersNotInTeam = [];
+    for (const player of this.players) {
+      if (!this.isPlayerInTeam(player)) {
+        playersNotInTeam.push(player);
+      }
+    }*/
+    const dialogRef = this.dialog.open(PlayerSelectDialogComponent, {
+      minWidth: '400px',
+      minHeight: '100px',
+      maxHeight: '600px',
+      data: {
+        players: [
+          {uid: 'player1', username: 'player1'},
+          {uid: 'player2', username: 'player2'},
+          {uid: 'player3', username: 'player3'},
+        ]
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+    });
   }
 }
 

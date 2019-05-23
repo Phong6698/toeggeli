@@ -5,7 +5,7 @@
         <mat-card-title class="text-center">Team Blue</mat-card-title>
         <div class="row justify-content-around">
           <div class="col text-center">
-            <button mat-raised-button class="team-blue-player-button">Player</button>
+            <button mat-raised-button class="team-blue-player-button" (click)="openPlayerSelectDialog()">Player</button>
           </div>
           <div class="col text-center">
             <button mat-raised-button class="team-blue-player-button">Player</button>
@@ -68,7 +68,3 @@
 <button mat-flat-button color="primary" class="mt-1" (click)="createNewMatch()">
   Create New Sample Match
 </button>
-
-<pre>
-  {{newMatch | json}}
-</pre>

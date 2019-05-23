@@ -9,8 +9,11 @@ import {
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
+  MatListModule,
+  MatMenuModule,
   MatProgressBarModule,
-  MatSelectModule
+  MatSelectModule,
+  MatSlideToggleModule
 } from '@angular/material';
 import {EffectsModule} from '@ngrx/effects';
 import {StoreModule} from '@ngrx/store';
@@ -21,14 +24,16 @@ import {ToeggeliRoutingModule} from './toeggeli-routing.module';
 import {ToeggeliEffects} from './toeggeli.effects';
 import {toeggeliReducer} from './toeggeli.reducer';
 import {NewMatchComponent} from './new-match/new-match.component';
+import {PlayerSelectDialogComponent} from './player-select-dialog/player-select-dialog.component';
 
 @NgModule({
-  declarations: [DashboardComponent, SpaceComponent, AddSpaceComponent, NewMatchComponent],
+  declarations: [DashboardComponent, SpaceComponent, AddSpaceComponent, NewMatchComponent, PlayerSelectDialogComponent],
   exports: [SpaceComponent, AddSpaceComponent],
   imports: [
+    CommonModule,
+    ToeggeliRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    CommonModule,
     MatButtonModule,
     MatCardModule,
     MatFormFieldModule,
@@ -38,10 +43,12 @@ import {NewMatchComponent} from './new-match/new-match.component';
     MatProgressBarModule,
     MatSelectModule,
     MatDividerModule,
+    MatListModule,
+    MatSlideToggleModule,
+    MatMenuModule,
     EffectsModule.forFeature([ToeggeliEffects]),
-    StoreModule.forFeature('toeggeli', toeggeliReducer),
-    ToeggeliRoutingModule
+    StoreModule.forFeature('toeggeli', toeggeliReducer)
   ],
-  entryComponents: [AddSpaceComponent]
+  entryComponents: [AddSpaceComponent, PlayerSelectDialogComponent]
 })
 export class ToeggeliModule {}
