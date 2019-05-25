@@ -5,10 +5,10 @@
         <mat-card-title class="text-center">Team Blue</mat-card-title>
         <div class="row justify-content-around">
           <div class="col text-center">
-            <button mat-raised-button class="team-blue-player-button" (click)="openPlayerSelectDialog()">Player</button>
+            <button mat-raised-button class="team-blue-player-button" (click)="openPlayerSelectDialog('blue')">Player</button>
           </div>
           <div class="col text-center">
-            <button mat-raised-button class="team-blue-player-button">Player</button>
+            <button mat-raised-button class="team-blue-player-button" (click)="openPlayerSelectDialog('blue')">Player</button>
           </div>
         </div>
       </mat-card>
@@ -53,10 +53,10 @@
         <mat-card-title class="text-center">Team Red</mat-card-title>
         <div class="row justify-content-around">
           <div class="col text-center">
-            <button mat-raised-button class="team-red-player-button">Player</button>
+            <button mat-raised-button class="team-red-player-button" (click)="openPlayerSelectDialog('red')">Player</button>
           </div>
           <div class="col text-center">
-            <button mat-raised-button class="team-red-player-button">Player</button>
+            <button mat-raised-button class="team-red-player-button" (click)="openPlayerSelectDialog('red')">Player</button>
           </div>
         </div>
       </mat-card>

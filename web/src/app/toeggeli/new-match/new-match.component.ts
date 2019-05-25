@@ -15,8 +15,8 @@ export class NewMatchComponent implements OnInit {
 
   newMatch: Match = {
     players: [
-      {userID: 'userID_Player1', side: 'blue'},
-      {userID: 'userID_Player2', side: 'blue'},
+      {userID: 'player1', side: 'blue'},
+      {userID: 'player2', side: 'blue'},
       {userID: 'userID_Player3', side: 'red'},
       {userID: 'userID_Player4', side: 'red'}
     ],
@@ -28,6 +28,17 @@ export class NewMatchComponent implements OnInit {
 
   scores = [
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+  ];
+
+  private players = [
+    {userID: 'player1', username: 'player1'},
+    {userID: 'player2', username: 'player2'},
+    {userID: 'player3', username: 'player3'},
+    {userID: 'player4', username: 'player4'},
+    {userID: 'player5', username: 'player5'},
+    {userID: 'player6', username: 'player6'},
+    {userID: 'player7', username: 'player7'},
+    {userID: 'player8', username: 'player8'}
   ];
 
   constructor(private store: Store<AppState>, public dialog: MatDialog) {
@@ -66,24 +77,19 @@ export class NewMatchComponent implements OnInit {
     }
   }
 
-  openPlayerSelectDialog() {
-    /*
-    const playersNotInTeam = [];
-    for (const player of this.players) {
-      if (!this.isPlayerInTeam(player)) {
-        playersNotInTeam.push(player);
-      }
-    }*/
+  openPlayerSelectDialog(side: string) {
+
+    const playersNotInTeam = this.players.filter(player => {
+      return !this.newMatch.players.find(matchPlayer => matchPlayer.userID === player.userID);
+    });
+
     const dialogRef = this.dialog.open(PlayerSelectDialogComponent, {
       minWidth: '400px',
       minHeight: '100px',
       maxHeight: '600px',
       data: {
-        players: [
-          {uid: 'player1', username: 'player1'},
-          {uid: 'player2', username: 'player2'},
-          {uid: 'player3', username: 'player3'},
-        ]
+        side: side,
+        players: playersNotInTeam
       }
     });
 

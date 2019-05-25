@@ -13,6 +13,20 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button color="primary" mat-raised-button (click)="submitSelectedPlayers(playerSelection)">Ok</button>
-  <button color="accent" mat-raised-button [mat-dialog-close]>Cancel</button>
+  
+  <div class="w-100">
+    <button mat-raised-button color="warn" class="float-left"  [mat-dialog-close]>Cancel</button>
+    <button mat-raised-button color="primary" [disabled]="!isSubmitSelectedPlayersAllowed(playerSelection)"
+            class="float-right" (click)="submitSelectedPlayers(playerSelection)">
+      Select
+    </button>
+    <button mat-raised-button color="primary" class="float-right"  
+            [disabled]="!isSubmitSelectPlayersRandomlyAllowed(playerSelection)" (click)="submitSelectPlayersRandomly(playerSelection)">
+      Randomize
+    </button>
+  </div>
+  <div>
+    
+  </div>
+  
 </mat-dialog-actions>
