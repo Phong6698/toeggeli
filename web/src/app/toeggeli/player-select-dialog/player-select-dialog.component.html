@@ -1,0 +1,29 @@
+<div mat-dialog-title>
+  <span>Select Players</span>
+  <mat-slide-toggle #selectToggle class="float-right" (change)="toggleSelect(selectToggle, playerSelection)">
+    <span>All</span>
+  </mat-slide-toggle>
+</div>
+<mat-dialog-content>
+  <mat-selection-list #playerSelection style="max-height: 500px" (selectionChange)="selectToggle.checked = false">
+    <mat-list-option *ngFor="let player of data.players" [value]="player" [selected]="isAlreadySelected(player)">
+      {{player.username}}
+    </mat-list-option>
+  </mat-selection-list>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <div class="w-100">
+    <button mat-raised-button color="warn" class="float-left" [mat-dialog-close]>Cancel</button>
+    <button *ngIf="data.side" mat-raised-button color="primary"
+            [disabled]="!isSubmitSelectedPlayersAllowed(playerSelection)"
+            class="float-right" (click)="submitSelectedPlayers(playerSelection)">
+      Select
+    </button>
+    <button mat-raised-button color="primary" class="float-right"
+            [disabled]="!isSubmitSelectPlayersRandomlyAllowed(playerSelection)"
+            (click)="submitSelectPlayersRandomly(playerSelection)">
+      Randomize
+    </button>
+  </div>
+</mat-dialog-actions>
