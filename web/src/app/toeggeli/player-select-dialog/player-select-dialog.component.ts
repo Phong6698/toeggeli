@@ -29,7 +29,7 @@ export class PlayerSelectDialogComponent implements OnInit {
       const selectedPlayers = [];
       playerSelection.selectedOptions.selected.forEach(option => {
         console.log(option);
-        selectedPlayers.push({userID: option.value.userID, side: this.data.side});
+        selectedPlayers.push({userID: option.value.userID, side: this.data.side, username: option.value.username});
       });
       this.matDialogRef.close(selectedPlayers);
     }
@@ -37,13 +37,24 @@ export class PlayerSelectDialogComponent implements OnInit {
 
   submitSelectPlayersRandomly(playerSelection: MatSelectionList) {
     if (this.isSubmitSelectPlayersRandomlyAllowed(playerSelection)) {
-      const selectedPlayers = [];
-      playerSelection.selectedOptions.selected.forEach(option => {
-        console.log(option);
-        selectedPlayers.push({userID: option.value.userID, side: this.data.side});
-      });
-
-      this.matDialogRef.close(this.getRandomItemsFromArray(selectedPlayers, 2));
+      if (this.data.side) {
+        const selectedPlayers = [];
+        playerSelection.selectedOptions.selected.forEach(option => {
+          selectedPlayers.push({userID: option.value.userID, side: this.data.side, username: option.value.username});
+        });
+        this.matDialogRef.close(PlayerSelectDialogComponent.getRandomItemsFromArray(selectedPlayers, 2));
+      } else {
+        const selectedPlayers = [];
+        playerSelection.selectedOptions.selected.forEach(option => {
+          selectedPlayers.push({userID: option.value.userID, side: '', username: option.value.username});
+        });
+        const randomPlayers = PlayerSelectDialogComponent.getRandomItemsFromArray(selectedPlayers, 4);
+        randomPlayers[0].side = 'blue';
+        randomPlayers[1].side = 'blue';
+        randomPlayers[2].side = 'red';
+        randomPlayers[3].side = 'red';
+        this.matDialogRef.close(randomPlayers);
+      }
     }
   }
 
@@ -52,10 +63,19 @@ export class PlayerSelectDialogComponent implements OnInit {
   }
 
   isSubmitSelectPlayersRandomlyAllowed(playerSelection: MatSelectionList): boolean {
-    return playerSelection.selectedOptions.selected.length > 2;
+    if (this.data.side) {
+      return playerSelection.selectedOptions.selected.length > 2;
+    } else {
+      return playerSelection.selectedOptions.selected.length >= 4;
+    }
   }
 
-  private getRandomItemsFromArray(array: any[], count: number): any[] {
+  isAlreadySelected(player): boolean {
+    const s = this.data.selected.find(selectedPlayer => selectedPlayer.userID === player.userID);
+    return s != null;
+  }
+
+  private static getRandomItemsFromArray(array: any[], count: number): any[] {
     const cArray = [...array];
     const items = [];
     for (let i = 0; i < count; i++) {
@@ -70,6 +90,7 @@ export class PlayerSelectDialogComponent implements OnInit {
 }
 
 export interface PlayerSelectDialogData {
-  side: string;
+  side?: string;
   players: { userID: string, username: string, firstName: string, lastName: string }[];
+  selected: { userID: string, username: string, firstName: string, lastName: string }[];
 }
