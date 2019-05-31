@@ -1,15 +1,15 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './core/auth.guard';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {AuthGuard} from './core/auth.guard';
 
 const routes: Routes = [
   {
     path: 'auth',
-    loadChildren: './auth/auth.module#AuthModule'
+    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
   },
   {
     path: '',
-    loadChildren: './toeggeli/toeggeli.module#ToeggeliModule',
+    loadChildren: () => import('./toeggeli/toeggeli.module').then(m => m.ToeggeliModule),
     canActivate: [AuthGuard]
   }
 ];
