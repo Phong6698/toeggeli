@@ -4,7 +4,7 @@ import {AppState} from 'src/app/store/app-store.reducer';
 import {MatchCreationRequested} from '../toeggeli.actions';
 import {Match} from 'src/app/core/match.service';
 import {PlayerSelectDialogComponent} from '../player-select-dialog/player-select-dialog.component';
-import {MatDialog} from '@angular/material';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-new-match',

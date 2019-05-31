@@ -1,11 +1,11 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { ActionsSubject, select, Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
-import { AppState } from '../../store/app-store.reducer';
-import { AddSpaceRequested, ToeggeliActionTypes } from '../toeggeli.actions';
-import { selectToeggeliAddSpaceError } from '../toeggeli.reducer';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {ActionsSubject, select, Store} from '@ngrx/store';
+import {Observable, Subscription} from 'rxjs';
+import {AppState} from '../../store/app-store.reducer';
+import {AddSpaceRequested, ToeggeliActionTypes} from '../toeggeli.actions';
+import {selectToeggeliAddSpaceError} from '../toeggeli.reducer';
 
 @Component({
   selector: 'app-add-space',
