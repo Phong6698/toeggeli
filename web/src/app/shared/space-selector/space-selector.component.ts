@@ -1,13 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { AppState } from '../../store/app-store.reducer';
-import { AddSpaceComponent } from '../../toeggeli/add-space/add-space.component';
-import {
-  selectToeggeliSelectedSpaceName,
-  selectToeggeliSpaces
-} from '../../toeggeli/toeggeli.reducer';
+import {Component, OnInit} from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
+import {Store} from '@ngrx/store';
+import {Observable} from 'rxjs';
+import {AppState} from '../../store/app-store.reducer';
+import {AddSpaceComponent} from '../../toeggeli/add-space/add-space.component';
+import {selectToeggeliSelectedSpaceName, selectToeggeliSpaces} from '../../toeggeli/toeggeli.reducer';
 
 @Component({
   selector: 'app-space-selector',

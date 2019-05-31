@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatSidenav} from '@angular/material';
+import {MatSidenav} from '@angular/material/sidenav';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {AppState} from './store/app-store.reducer';
