@@ -18,12 +18,12 @@
     <button *ngIf="data.side" mat-raised-button color="primary"
             [disabled]="!isSubmitSelectedPlayersAllowed(playerSelection)"
             class="float-right" (click)="submitSelectedPlayers(playerSelection)">
-      Select
+      Ok
     </button>
     <button mat-raised-button color="primary" class="float-right"
             [disabled]="!isSubmitSelectPlayersRandomlyAllowed(playerSelection)"
             (click)="submitSelectPlayersRandomly(playerSelection)">
-      Randomize
+      <mat-icon>casino</mat-icon>
     </button>
   </div>
 </mat-dialog-actions>

@@ -105,14 +105,14 @@ export class NewMatchComponent implements OnInit {
     }
 
     const dialogRef = this.dialog.open(PlayerSelectDialogComponent, {
-      minWidth: '400px',
+      minWidth: '300px',
+      maxWidth: '400px',
       minHeight: '100px',
       maxHeight: '600px',
       data: data
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
       if (result) {
         if (side === 'blue') {
           this.bluePlayers = result;
