@@ -20,7 +20,7 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 import {SpaceComponent} from './space/space.component';
 import {ToeggeliRoutingModule} from './toeggeli-routing.module';
 import {ToeggeliEffects} from './toeggeli.effects';
-import {toeggeliReducer} from './toeggeli.reducer';
+import {reducer} from './toeggeli.reducer';
 import {NewMatchComponent} from './new-match/new-match.component';
 import {PlayerSelectDialogComponent} from './player-select-dialog/player-select-dialog.component';
 
@@ -45,7 +45,7 @@ import {PlayerSelectDialogComponent} from './player-select-dialog/player-select-
     MatSlideToggleModule,
     MatMenuModule,
     EffectsModule.forFeature([ToeggeliEffects]),
-    StoreModule.forFeature('toeggeli', toeggeliReducer)
+    StoreModule.forFeature('toeggeli', reducer)
   ],
   entryComponents: [AddSpaceComponent, PlayerSelectDialogComponent]
 })

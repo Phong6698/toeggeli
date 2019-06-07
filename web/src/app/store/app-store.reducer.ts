@@ -2,7 +2,7 @@ import {routerReducer, RouterReducerState} from '@ngrx/router-store';
 import {ActionReducerMap, createSelector, MetaReducer} from '@ngrx/store';
 
 import {environment} from '../../environments/environment';
-import {authReducer, AuthState} from './auth.reducer';
+import {AuthState, reducer} from './auth.reducer';
 import {RouterStateUrl} from './router-state-url';
 
 export interface AppState {
@@ -12,7 +12,7 @@ export interface AppState {
 
 export const reducers: ActionReducerMap<AppState> = {
   router: routerReducer,
-  auth: authReducer
+  auth: reducer
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production ? [] : [];

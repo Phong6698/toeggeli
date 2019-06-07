@@ -1,4 +1,4 @@
-import {createReducer, createSelector, on} from '@ngrx/store';
+import {Action, createReducer, createSelector, on} from '@ngrx/store';
 import {UserInfo} from 'firebase';
 import {AppState} from './app-store.reducer';
 import {userLoggedIn, userLoggedOut, userLoginFailed, userRegistrationFailed} from './auth.actions';
@@ -69,3 +69,7 @@ export const selectUserRegistrationError = createSelector(
   selectAuth,
   state => state.registrationErrorCode
 );
+
+export function reducer(state: AuthState | undefined, action: Action) {
+  return authReducer(state, action);
+}

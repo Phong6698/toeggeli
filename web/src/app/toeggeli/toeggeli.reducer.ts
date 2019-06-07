@@ -11,6 +11,7 @@ import {
   userLoaded
 } from './toeggeli.actions';
 import {User} from './user';
+import {Action} from '@ngrx/store/src/models';
 
 export interface ToeggeliState {
   user: User;
@@ -73,6 +74,10 @@ export const toeggeliReducer = createReducer(
     })
   )
 );
+
+export function reducer(state: ToeggeliState | undefined, action: Action) {
+  return toeggeliReducer(state, action);
+}
 
 export const selectToeggeli = createFeatureSelector<ToeggeliState>('toeggeli');
 
