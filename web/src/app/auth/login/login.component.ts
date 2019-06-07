@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { AppState } from '../../store/app-store.reducer';
-import { UserLoginRequested } from '../../store/auth.actions';
-import { selectAuthLoginError } from '../../store/auth.reducer';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {select, Store} from '@ngrx/store';
+import {Observable} from 'rxjs';
+import {AppState} from '../../store/app-store.reducer';
+import {userLoginRequested} from '../../store/auth.actions';
+import {selectAuthLoginError} from '../../store/auth.reducer';
 
 @Component({
   selector: 'app-login',
@@ -28,6 +28,6 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(data) {
-    this.store.dispatch(new UserLoginRequested({ email: data.email, password: data.password }));
+    this.store.dispatch(userLoginRequested({ email: data.email, password: data.password }));
   }
 }

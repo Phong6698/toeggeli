@@ -1,52 +1,54 @@
-import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { Router } from '@angular/router';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
-import { combineLatest, Observable, of } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {Router} from '@angular/router';
+import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Store} from '@ngrx/store';
+import {combineLatest, Observable, of} from 'rxjs';
+import {catchError, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
+import {MatchService} from '../core/match.service';
+import {SpaceService} from '../core/space.service';
+import {AppState, selectRouterParamSpaceId} from '../store/app-store.reducer';
+import {selectAuthUserId} from '../store/auth.reducer';
+import {selectToeggeliUserSpaces} from './toeggeli.reducer';
+import {User} from './user';
 import {
-  catchError,
-  map,
-  mergeMap,
-  switchMap,
-  tap,
-  withLatestFrom
-} from 'rxjs/operators';
-import { MatchService } from '../core/match.service';
-import { SpaceService } from '../core/space.service';
-import { AppState, selectRouterParamSpaceId } from '../store/app-store.reducer';
-import { selectAuthUserId } from '../store/auth.reducer';
-import {
-  AddSpaceCreated,
-  AddSpaceFailed,
-  AddSpaceRequested,
-  MatchCreationRequested,
-  SpacesLoaded,
-  SpacesRequested,
-  SpaceUsersRequested,
-  ToeggeliActions,
-  ToeggeliActionTypes,
-  UserLoaded,
-  UserRequested
+  addSpaceCreated,
+  addSpaceFailed,
+  addSpaceRequested,
+  matchCreationRequested,
+  spacesLoaded,
+  spacesRequested,
+  spaceUsersRequested,
+  userLoaded,
+  userRequested
 } from './toeggeli.actions';
-import { selectToeggeliUserSpaces } from './toeggeli.reducer';
-import { User } from './user';
 
 @Injectable()
 export class ToeggeliEffects {
+
+  constructor(
+    private actions$: Actions,
+    private store: Store<AppState>,
+    private angularFirestore: AngularFirestore,
+    private router: Router,
+    private spaceService: SpaceService,
+    private matchService: MatchService
+  ) {
+  }
+
   @Effect()
   userRequested$ = this.actions$.pipe(
-    ofType<UserRequested>(ToeggeliActionTypes.UserRequested),
+    ofType(userRequested),
     withLatestFrom(this.store.select(selectAuthUserId)),
     switchMap(([action, uid]) =>
       this.angularFirestore.doc(`Users/${uid}`).valueChanges()
     ),
-    map(user => new UserLoaded({ user: user as User }))
+    map(user => userLoaded({user: user as User}))
   );
 
   @Effect()
   userLoaded$ = this.actions$.pipe(
-    ofType<UserLoaded>(ToeggeliActionTypes.UserLoaded),
+    ofType(userLoaded),
     withLatestFrom(
       this.store.select(selectRouterParamSpaceId),
       this.store.select(selectToeggeliUserSpaces)
@@ -58,15 +60,15 @@ export class ToeggeliEffects {
     }),
     map(
       ([action, spaceId, userSpaces]) =>
-        new SpacesRequested({ spaces: userSpaces })
+        spacesRequested({spaces: userSpaces})
     )
   );
 
   @Effect()
   spacesRequested$ = this.actions$.pipe(
-    ofType<SpacesRequested>(ToeggeliActionTypes.SpacesRequested),
+    ofType(spacesRequested),
     switchMap(action => {
-      const spaces = action.payload.spaces;
+      const spaces = action.spaces;
       const spaceCollections: Observable<any>[] = spaces.map(spaceId =>
         this.angularFirestore
           .doc('Spaces/' + spaceId)
@@ -91,17 +93,17 @@ export class ToeggeliEffects {
       );
     }),
     map(spaces => {
-      return new SpacesLoaded({ spaces });
+      return spacesLoaded({spaces});
     })
   );
 
   @Effect()
   spaceUsersRequested$ = this.actions$.pipe(
-    ofType<SpaceUsersRequested>(ToeggeliActionTypes.SpaceUsersRequested),
+    ofType(spaceUsersRequested),
     switchMap(action => {
       return this.angularFirestore
         .collection('Users', ref => {
-          return ref.where('spaces', 'array-contains', action.payload.spaceId);
+          return ref.where('spaces', 'array-contains', action.spaceId);
         })
         .stateChanges();
     }),
@@ -119,10 +121,10 @@ export class ToeggeliEffects {
 
   @Effect()
   addSpaceRequested$ = this.actions$.pipe(
-    ofType<AddSpaceRequested>(ToeggeliActionTypes.AddSpaceRequested),
+    ofType(addSpaceRequested),
     withLatestFrom(this.store.select(selectAuthUserId)),
     switchMap(([action, userId]) => {
-      return this.spaceService.addSpace(action.payload.spaceName, userId).pipe(
+      return this.spaceService.addSpace(action.spaceName, userId).pipe(
         map(() => {
           return true;
         }),
@@ -133,27 +135,19 @@ export class ToeggeliEffects {
     }),
     map((res: any) => {
       if (res) {
-        return new AddSpaceCreated();
+        return addSpaceCreated();
       } else {
-        return new AddSpaceFailed();
+        return addSpaceFailed();
       }
     })
   );
 
-  @Effect({ dispatch: false })
+  @Effect({dispatch: false})
   matchCreationRequested$ = this.actions$.pipe(
-    ofType<MatchCreationRequested>(ToeggeliActionTypes.MatchCreationRequested),
+    ofType(matchCreationRequested),
     switchMap(action => {
-      return this.matchService.createMatch(action.payload.match).pipe(tap());
+      return this.matchService.createMatch(action.match).pipe(tap());
     })
   );
 
-  constructor(
-    private actions$: Actions<ToeggeliActions>,
-    private store: Store<AppState>,
-    private angularFirestore: AngularFirestore,
-    private router: Router,
-    private spaceService: SpaceService,
-    private matchService: MatchService
-  ) {}
 }

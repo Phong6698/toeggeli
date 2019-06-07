@@ -1,7 +1,7 @@
-import { createSelector } from '@ngrx/store';
-import { UserInfo } from 'firebase';
-import { AppState } from './app-store.reducer';
-import { AuthActions, AuthActionTypes } from './auth.actions';
+import {createReducer, createSelector, on} from '@ngrx/store';
+import {UserInfo} from 'firebase';
+import {AppState} from './app-store.reducer';
+import {userLoggedIn, userLoggedOut, userLoginFailed, userRegistrationFailed} from './auth.actions';
 
 export interface AuthState {
   user: UserInfo;
@@ -15,42 +15,39 @@ export const initialState: AuthState = {
   registrationErrorCode: null
 };
 
-export function authReducer(
-  state = initialState,
-  action: AuthActions
-): AuthState {
-  switch (action.type) {
-    case AuthActionTypes.UserLoggedIn:
-      return {
-        ...state,
-        user: action.payload.user
-      };
-    case AuthActionTypes.UserLoggedOut:
-      return {
-        ...state,
-        user: null
-      };
-    case AuthActionTypes.UserLoginFailed:
-      return {
-        ...state,
-        loginErrorCode: action.payload.errorCode
-      };
-
-    case AuthActionTypes.UserRegistrationFailed:
-      return {
-        ...state,
-        registrationErrorCode: action.payload.errorCode
-      };
-    default:
-      return state;
-  }
-}
+export const authReducer = createReducer(
+  initialState,
+  on(userLoggedIn,
+    (state, {user}) => ({
+      ...state,
+      user
+    })
+  ),
+  on(userLoggedOut,
+    (state) => ({
+      ...state,
+      user: null
+    })
+  ),
+  on(userLoginFailed,
+    (state, {errorCode}) => ({
+      ...state,
+      loginErrorCode: errorCode
+    })
+  ),
+  on(userRegistrationFailed,
+    (state, {errorCode}) => ({
+      ...state,
+      registrationErrorCode: errorCode
+    })
+  )
+);
 
 const selectAuth = (state: AppState) => state.auth;
 
 export const selectIsAuthenticated = createSelector(
   selectAuth,
-  auth => (auth.user ? true : false)
+  auth => (!!auth.user)
 );
 
 export const selectAuthUser = createSelector(

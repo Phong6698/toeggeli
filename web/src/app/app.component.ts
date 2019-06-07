@@ -3,8 +3,8 @@ import {MatSidenav} from '@angular/material/sidenav';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {AppState} from './store/app-store.reducer';
-import {UserLogoutRequested} from './store/auth.actions';
 import {selectIsAuthenticated} from './store/auth.reducer';
+import {userLogoutRequested} from './store/auth.actions';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
   constructor(private store: Store<AppState>) {}
 
   logout() {
-    this.store.dispatch(new UserLogoutRequested());
+    this.store.dispatch(userLogoutRequested());
     this.sidenav.toggle();
   }
 
