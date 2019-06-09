@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {AppState} from 'src/app/store/app-store.reducer';
-import {MatchCreationRequested} from '../toeggeli.actions';
 import {Match} from 'src/app/core/match.service';
 import {PlayerSelectDialogComponent} from '../player-select-dialog/player-select-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
+import {matchCreationRequested} from '../toeggeli.actions';
 
 @Component({
   selector: 'app-new-match',
@@ -48,7 +48,7 @@ export class NewMatchComponent implements OnInit {
         spaceID: 'spaceID_Raiffeisen',
         timestamp: new Date()
       };
-      this.store.dispatch(new MatchCreationRequested({match: newMatch}));
+      this.store.dispatch(matchCreationRequested({match: newMatch}));
     }
 
   }
@@ -93,15 +93,15 @@ export class NewMatchComponent implements OnInit {
     let data;
     if (side) {
       data = {
-        side: side,
+        side,
         players: playersNotInTeam,
         selected: this.bluePlayers.concat(this.redPlayers)
-      }
+      };
     } else {
       data = {
         players: playersNotInTeam,
         selected: this.bluePlayers.concat(this.redPlayers)
-      }
+      };
     }
 
     const dialogRef = this.dialog.open(PlayerSelectDialogComponent, {
@@ -109,7 +109,7 @@ export class NewMatchComponent implements OnInit {
       maxWidth: '400px',
       minHeight: '100px',
       maxHeight: '600px',
-      data: data
+      data
     });
 
     dialogRef.afterClosed().subscribe(result => {

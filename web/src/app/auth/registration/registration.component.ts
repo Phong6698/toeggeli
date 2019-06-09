@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { AppState } from '../../store/app-store.reducer';
-import { UserRegistrationRequested } from '../../store/auth.actions';
-import { selectUserRegistrationError } from '../../store/auth.reducer';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {select, Store} from '@ngrx/store';
+import {Observable} from 'rxjs';
+import {AppState} from '../../store/app-store.reducer';
+import {userRegistrationRequested} from '../../store/auth.actions';
+import {selectUserRegistrationError} from '../../store/auth.reducer';
 
 @Component({
   selector: 'app-registration',
@@ -36,7 +36,7 @@ export class RegistrationComponent implements OnInit {
 
   onSubmit(data) {
     this.store.dispatch(
-      new UserRegistrationRequested({
+      userRegistrationRequested({
         username: data.username,
         firstName: data.firstName,
         lastName: data.lastName,

@@ -1,72 +1,46 @@
-import { Action } from '@ngrx/store';
-import { UserInfo } from 'firebase';
+import {createAction, props} from '@ngrx/store';
+import {UserInfo} from 'firebase';
 
-export enum AuthActionTypes {
-  UserLoginRequested = '[Auth] User Login Requested',
-  // UserLoginSuccessful = '[Auth] User Login Successful',
-  UserLoginFailed = '[Auth] User Login Failed',
-  UserLogoutRequested = '[Auth] User Logout Requested',
-  UserLoggedIn = '[Auth] User LoggedIn',
-  UserLoggedOut = '[Auth] User LoggedOut',
-  UserRegistrationRequested = '[Auth] User Registration Requested',
-  UserRegistrationFailed = '[Auth] User Registration Failed',
-  UserCreationRequested = '[Auth] User Creation Requested'
-}
+export const userLoginRequested = createAction(
+  '[Auth] User Login Requested',
+  props<{ email: string; password: string }>()
+);
 
-export class UserLoginRequested implements Action {
-  readonly type = AuthActionTypes.UserLoginRequested;
+/*
+export const userLoginSuccessful = createAction(
+  '[Auth] User Login Successful'
+);
+*/
 
-  constructor(public payload: { email: string; password: string }) {}
-}
+export const userLoginFailed = createAction(
+  '[Auth] User Login Failed',
+  props<{ errorCode: string }>()
+);
 
-// export class UserLoginSuccessful implements Action {
-//   readonly type = AuthActionTypes.UserLoginSuccessful;
-// }
+export const userLogoutRequested = createAction(
+  '[Auth] User Logout Requested'
+);
 
-export class UserLoginFailed implements Action {
-  readonly type = AuthActionTypes.UserLoginFailed;
+export const userLoggedIn = createAction(
+  '[Auth] User LoggedIn',
+  props<{ user: UserInfo }>()
+);
 
-  constructor(public payload: { errorCode: string }) {}
-}
+export const userLoggedOut = createAction(
+  '[Auth] User LoggedOut'
+);
 
-export class UserLogoutRequested implements Action {
-  readonly type = AuthActionTypes.UserLogoutRequested;
-}
+export const userRegistrationRequested = createAction(
+  '[Auth] User Registration Requested',
+  props<{ username: string; firstName: string; lastName: string; email: string; password: string }>()
+);
 
-export class UserLoggedIn implements Action {
-  readonly type = AuthActionTypes.UserLoggedIn;
+export const userRegistrationFailed = createAction(
+  '[Auth] User Registration Failed',
+  props<{ errorCode: string }>()
+);
 
-  constructor(public payload: { user: UserInfo }) {}
-}
-
-export class UserLoggedOut implements Action {
-  readonly type = AuthActionTypes.UserLoggedOut;
-}
-
-export class UserRegistrationRequested implements Action {
-  readonly type = AuthActionTypes.UserRegistrationRequested;
-
-  constructor(public payload: {username: string; firstName: string; lastName: string; email: string; password: string }) {}
-}
-
-export class UserRegistrationFailed implements Action {
-  readonly type = AuthActionTypes.UserRegistrationFailed;
-
-  constructor(public payload: { errorCode: string }) {}
-}
-
-export class UserCreationRequested implements Action {
-  readonly type = AuthActionTypes.UserCreationRequested;
-  constructor(public payload: {uid: string; username: string; firstName: string; lastName: string}) {}
-}
-
-export type AuthActions =
-  | UserLoginRequested
-  // | UserLoginSuccessful
-  | UserLoginFailed
-  | UserLogoutRequested
-  | UserLoggedIn
-  | UserLoggedOut
-  | UserRegistrationRequested
-  | UserRegistrationFailed
-  | UserCreationRequested;
+export const userCreationRequested = createAction(
+  '[Auth] User Creation Requested',
+  props<{ uid: string; username: string; firstName: string; lastName: string }>()
+);

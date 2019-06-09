@@ -4,8 +4,8 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {ActionsSubject, select, Store} from '@ngrx/store';
 import {Observable, Subscription} from 'rxjs';
 import {AppState} from '../../store/app-store.reducer';
-import {AddSpaceRequested, ToeggeliActionTypes} from '../toeggeli.actions';
 import {selectToeggeliAddSpaceError} from '../toeggeli.reducer';
+import {addSpaceCreated, addSpaceRequested} from '../toeggeli.actions';
 
 @Component({
   selector: 'app-add-space',
@@ -35,14 +35,14 @@ export class AddSpaceComponent implements OnInit, OnDestroy {
     });
 
     this.subsc = this.actionsSubj.subscribe(data => {
-      if (data.type === ToeggeliActionTypes.AddSpaceCreated) {
+      if (data.type === addSpaceCreated.type) {
         this.dialogRef.close();
       }
     });
   }
 
   onSubmit(data) {
-    this.store.dispatch(new AddSpaceRequested({ spaceName: data.spaceName }));
+    this.store.dispatch(addSpaceRequested({ spaceName: data.spaceName }));
   }
 
   ngOnDestroy() {

@@ -1,9 +1,17 @@
-import { createEntityAdapter, EntityState } from '@ngrx/entity';
-import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { selectRouterParamSpaceId } from '../store/app-store.reducer';
-import { Space } from './space';
-import { ToeggeliActions, ToeggeliActionTypes } from './toeggeli.actions';
-import { User } from './user';
+import {createEntityAdapter, EntityState} from '@ngrx/entity';
+import {createFeatureSelector, createReducer, createSelector, on} from '@ngrx/store';
+import {selectRouterParamSpaceId} from '../store/app-store.reducer';
+import {Space} from './space';
+import {
+  addSpaceCreated,
+  spacesLoaded,
+  spaceUsersAdded,
+  spaceUsersModified,
+  spaceUsersRemoved,
+  userLoaded
+} from './toeggeli.actions';
+import {User} from './user';
+import {Action} from '@ngrx/store/src/models';
 
 export interface ToeggeliState {
   user: User;
@@ -21,62 +29,54 @@ export const initialState: ToeggeliState = {
   spaceUsers: spaceUserAdapter.getInitialState()
 };
 
-export function toeggeliReducer(
-  state = initialState,
-  action: ToeggeliActions
-): ToeggeliState {
-  switch (action.type) {
-    case ToeggeliActionTypes.UserLoaded:
-      return {
-        ...state,
-        user: action.payload.user
-      };
+export const toeggeliReducer = createReducer(
+  initialState,
+  on(userLoaded,
+    (state, {user}) => ({
+      ...state,
+      user
+    })
+  ),
+  on(spacesLoaded,
+    (state, {spaces}) => ({
+      ...state,
+      spaces
+    })
+  ),
+  on(addSpaceCreated,
+    (state) => ({
+      ...state,
+      hasAddSpaceError: false
+    })
+  ),
+  on(spaceUsersAdded,
+    (state, {user}) => ({
+      ...state,
+      spaceUsers: spaceUserAdapter.addOne(user, state.spaceUsers)
+    })
+  ),
+  on(spaceUsersModified,
+    (state, {user}) => ({
+      ...state,
+      spaceUsers: spaceUserAdapter.updateOne(
+        {id: (user as any).id, changes: user},
+        state.spaceUsers
+      )
+    })
+  ),
+  on(spaceUsersRemoved,
+    (state, {user}) => ({
+      ...state,
+      spaceUsers: spaceUserAdapter.removeOne(
+        (user as any).id,
+        state.spaceUsers
+      )
+    })
+  )
+);
 
-    case ToeggeliActionTypes.SpacesLoaded:
-      return {
-        ...state,
-        spaces: action.payload.spaces
-      };
-
-    case ToeggeliActionTypes.AddSpaceCreated:
-      return {
-        ...state,
-        hasAddSpaceError: false
-      };
-
-    case ToeggeliActionTypes.AddSpaceFailed:
-      return {
-        ...state,
-        hasAddSpaceError: true
-      };
-
-    case ToeggeliActionTypes.SpaceUsersAdded:
-      return {
-        ...state,
-        spaceUsers: spaceUserAdapter.addOne(action.payload, state.spaceUsers)
-      };
-
-    case ToeggeliActionTypes.SpaceUsersModified:
-      return {
-        ...state,
-        spaceUsers: spaceUserAdapter.updateOne(
-          { id: (action.payload as any).id, changes: action.payload },
-          state.spaceUsers
-        )
-      };
-
-    case ToeggeliActionTypes.SpaceUsersRemoved:
-      return {
-        ...state,
-        spaceUsers: spaceUserAdapter.removeOne(
-          (action.payload as any).id,
-          state.spaceUsers
-        )
-      };
-
-    default:
-      return state;
-  }
+export function reducer(state: ToeggeliState | undefined, action: Action) {
+  return toeggeliReducer(state, action);
 }
 
 export const selectToeggeli = createFeatureSelector<ToeggeliState>('toeggeli');

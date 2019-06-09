@@ -1,99 +1,62 @@
-import {Action} from '@ngrx/store';
+import {createAction, props} from '@ngrx/store';
 import {Match} from '../core/match.service';
 import {Space} from './space';
 import {User} from './user';
 
-export enum ToeggeliActionTypes {
-  UserRequested = '[Toeggeli] User Requested',
-  UserLoaded = '[Toeggeli] User Loaded',
-  SpacesRequested = '[Toeggeli] Spaces Requested',
-  SpacesLoaded = '[Toeggeli] Spaces Loaded',
-  AddSpaceRequested = '[Toeggeli] Add Space Requested',
-  AddSpaceCreated = '[Toeggeli] Add Space Created',
-  AddSpaceFailed = '[Toeggeli] Add Space Failed',
-  SpaceUsersRequested = '[Toeggeli] Space Users Requested',
-  SpaceUsersAdded = '[Toeggeli] Space Users added',
-  SpaceUsersModified = '[Toeggeli] Space Users modified',
-  SpaceUsersRemoved = '[Toeggeli] Space Users removed',
-  MatchCreationRequested = '[Toeggeli] Match Creation Reaquested'
-}
+export const userRequested = createAction(
+  '[Toeggeli] User Requested'
+);
 
-export class UserRequested implements Action {
-  readonly type = ToeggeliActionTypes.UserRequested;
-}
+export const userLoaded = createAction(
+  '[Toeggeli] User Loaded',
+  props<{ user: User }>()
+);
 
-export class UserLoaded implements Action {
-  readonly type = ToeggeliActionTypes.UserLoaded;
+export const spacesRequested = createAction(
+  '[Toeggeli] Spaces Requested',
+  props<{ spaces: string[] }>()
+);
 
-  constructor(public payload: { user: User }) {}
-}
+export const spacesLoaded = createAction(
+  '[Toeggeli] Spaces Loaded',
+  props<{ spaces: Space[] }>()
+);
 
-export class SpacesRequested implements Action {
-  readonly type = ToeggeliActionTypes.SpacesRequested;
+export const spaceUsersRequested = createAction(
+  '[Toeggeli] Space Users Requested',
+  props<{ spaceId: string }>()
+);
 
-  constructor(public payload: { spaces: string[] }) {}
-}
+export const spaceUsersAdded = createAction(
+  '[Toeggeli] Space Users added',
+  props<{ user: User }>()
+);
 
-export class SpacesLoaded implements Action {
-  readonly type = ToeggeliActionTypes.SpacesLoaded;
+export const spaceUsersModified = createAction(
+  '[Toeggeli] Space Users modified',
+  props<{ user: User }>()
+);
 
-  constructor(public payload: { spaces: Space[] }) {}
-}
+export const spaceUsersRemoved = createAction(
+  '[Toeggeli] Space Users removed',
+  props<{ user: User }>()
+);
 
-export class SpaceUsersRequested implements Action {
-  readonly type = ToeggeliActionTypes.SpaceUsersRequested;
+export const addSpaceRequested = createAction(
+  '[Toeggeli] Add Space Requested',
+  props<{ spaceName: string }>()
+);
 
-  constructor(public payload: { spaceId: string }) {}
-}
+export const addSpaceCreated = createAction(
+  '[Toeggeli] Add Space Created'
+);
 
-export class SpaceUsersAdded implements Action {
-  readonly type = ToeggeliActionTypes.SpaceUsersAdded;
+export const addSpaceFailed = createAction(
+  '[Toeggeli] Add Space Failed'
+);
 
-  constructor(public payload: User) {}
-}
+export const matchCreationRequested = createAction(
+  '[Toeggeli] Match Creation Requested',
+  props<{ match: Match }>()
+);
 
-export class SpaceUsersModified implements Action {
-  readonly type = ToeggeliActionTypes.SpaceUsersModified;
-
-  constructor(public payload: User) {}
-}
-
-export class SpaceUsersRemoved implements Action {
-  readonly type = ToeggeliActionTypes.SpaceUsersRemoved;
-
-  constructor(public payload: User) {}
-}
-
-export class AddSpaceRequested implements Action {
-  readonly type = ToeggeliActionTypes.AddSpaceRequested;
-
-  constructor(public payload: { spaceName: string }) {}
-}
-
-export class AddSpaceCreated implements Action {
-  readonly type = ToeggeliActionTypes.AddSpaceCreated;
-}
-
-export class AddSpaceFailed implements Action {
-  readonly type = ToeggeliActionTypes.AddSpaceFailed;
-}
-
-export class MatchCreationRequested implements Action {
-  readonly type = ToeggeliActionTypes.MatchCreationRequested;
-
-  constructor(public payload: { match: Match }) {}
-}
-
-export type ToeggeliActions =
-  | UserRequested
-  | UserLoaded
-  | SpacesRequested
-  | SpacesLoaded
-  | AddSpaceRequested
-  | AddSpaceCreated
-  | AddSpaceFailed
-  | SpaceUsersRequested
-  | SpaceUsersAdded
-  | SpaceUsersModified
-  | SpaceUsersRemoved
-  | MatchCreationRequested;
