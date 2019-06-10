@@ -1,5 +1,16 @@
 <mat-sidenav-container fullscreen (panRight)="sidenav.open()" (panLeft)="sidenav.close()">
-  <mat-sidenav #sidenav role="navigation" mode="side" class="side-nav">
+  <mat-sidenav #sidenav role="navigation" mode="push" class="side-nav">
+    <ng-container *ngIf="userAuth$ | async as userAuth">
+      <div *ngIf="user$ | async as user" class="p-3" style="height: 10rem;">
+        <div>
+          <img [src]="gravatarModule.url(userAuth.email)" alt="profile picture" class="profile-picture">
+          <h5 class="ml-3 d-inline align-middle">{{user.username}}</h5>
+        </div>
+        <p class="mt-3 mb-0">{{user.firstName}} {{user.lastName}}</p>
+        <p>{{userAuth.email}}</p>
+      </div>
+    </ng-container>
+    <mat-divider></mat-divider>
     <app-menu (logout)="logout()"></app-menu>
   </mat-sidenav>
   <mat-sidenav-content>

@@ -11,7 +11,8 @@ import {AppComponent} from './app.component';
 import {CoreModule} from './core/core.module';
 import {SharedModule} from './shared/shared.module';
 import {AppStoreModule} from './store/app-store.module';
-import { ServiceWorkerModule } from '@angular/service-worker';
+import {ServiceWorkerModule} from '@angular/service-worker';
+import {MatDividerModule} from '@angular/material';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,6 +21,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     AngularFireAuthModule,
     AngularFirestoreModule,
     MatSidenavModule,
+    MatDividerModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
