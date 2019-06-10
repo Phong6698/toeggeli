@@ -1,4 +1,4 @@
-<mat-sidenav-container fullscreen>
+<mat-sidenav-container fullscreen (panRight)="sidenav.open()" (panLeft)="sidenav.close()">
   <mat-sidenav #sidenav role="navigation" mode="side" class="side-nav">
     <app-menu (logout)="logout()"></app-menu>
   </mat-sidenav>
