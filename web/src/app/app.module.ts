@@ -11,6 +11,7 @@ import {AppComponent} from './app.component';
 import {CoreModule} from './core/core.module';
 import {SharedModule} from './shared/shared.module';
 import {AppStoreModule} from './store/app-store.module';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,7 +25,8 @@ import {AppStoreModule} from './store/app-store.module';
     AppRoutingModule,
     CoreModule,
     SharedModule,
-    AppStoreModule
+    AppStoreModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [],
   bootstrap: [AppComponent]
