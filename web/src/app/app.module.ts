@@ -13,6 +13,7 @@ import {SharedModule} from './shared/shared.module';
 import {AppStoreModule} from './store/app-store.module';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {MatDividerModule} from '@angular/material';
+import {LayoutModule} from '@angular/cdk/layout';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,6 +23,7 @@ import {MatDividerModule} from '@angular/material';
     AngularFirestoreModule,
     MatSidenavModule,
     MatDividerModule,
+    LayoutModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,

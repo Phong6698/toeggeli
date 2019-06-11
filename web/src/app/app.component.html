@@ -1,5 +1,5 @@
 <mat-sidenav-container fullscreen (panRight)="sidenav.open()" (panLeft)="sidenav.close()">
-  <mat-sidenav #sidenav role="navigation" mode="push" class="side-nav">
+  <mat-sidenav #sidenav role="navigation" [mode]="sideNavMode" class="side-nav" [ngClass]="sideNavWidthClass">
     <ng-container *ngIf="userAuth$ | async as userAuth">
       <div *ngIf="user$ | async as user" class="p-3" style="height: 10rem;">
         <div>
