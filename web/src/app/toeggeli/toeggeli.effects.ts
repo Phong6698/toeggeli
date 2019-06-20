@@ -9,7 +9,7 @@ import {MatchService} from '../core/match.service';
 import {SpaceService} from '../core/space.service';
 import {AppState, selectRouterParamSpaceId} from '../store/app-store.reducer';
 import {selectAuthUserId} from '../store/auth.reducer';
-import {selectToeggeliUserSpaces} from './toeggeli.reducer';
+import {selectToeggeliSelectedSpaceId, selectToeggeliUserSpaces} from './toeggeli.reducer';
 import {User} from './user';
 import {
   addSpaceCreated,
@@ -145,8 +145,9 @@ export class ToeggeliEffects {
   @Effect({dispatch: false})
   matchCreationRequested$ = this.actions$.pipe(
     ofType(matchCreationRequested),
-    switchMap(action => {
-      return this.matchService.createMatch(action.match).pipe(tap());
+    withLatestFrom(this.store.select(selectToeggeliSelectedSpaceId)),
+    switchMap(([action, spaceId]) => {
+      return this.matchService.createMatch({...action.match, spaceID: spaceId}).pipe(tap());
     })
   );
 

@@ -45,7 +45,7 @@ export class NewMatchComponent implements OnInit {
         players: this.bluePlayers.concat(this.redPlayers),
         blueScore: this.blueScore,
         redScore: this.redScore,
-        spaceID: 'spaceID_Raiffeisen',
+        spaceID: '',
         timestamp: new Date()
       };
       this.store.dispatch(matchCreationRequested({match: newMatch}));
