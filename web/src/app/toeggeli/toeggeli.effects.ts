@@ -18,6 +18,7 @@ import {
   matchCreationRequested,
   spacesLoaded,
   spacesRequested,
+  spaceUsersAdded,
   spaceUsersRequested,
   userLoaded,
   userRequested
@@ -109,13 +110,12 @@ export class ToeggeliEffects {
     }),
     mergeMap(actions => actions),
     map(action => {
-      return {
-        type: `[Toeggeli] Space Users ${action.type}`,
-        payload: {
-          ...action.payload.doc.data(),
-          id: action.payload.doc.id
-        }
-      };
+      return {...action.payload.doc.data(), id: action.payload.doc.id};
+    }),
+    map(user => {
+
+      return spaceUsersAdded({user: user as User});
+
     })
   );
 

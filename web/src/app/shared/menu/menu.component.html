@@ -1,9 +1,9 @@
 <mat-nav-list class="list">
-  <a mat-list-item routerLink="/toeggeli">
+  <a mat-list-item [routerLink]="(selectedSpaceId$ | async) +'/dashboard'">
     <mat-icon class="icon">dashboard</mat-icon>
     <span class="label">Dashboard</span>
   </a>
-  <a mat-list-item routerLink="/toeggeli/new-match">
+  <a mat-list-item [routerLink]="(selectedSpaceId$ | async) + '/new-match'">
     <mat-icon class="icon">games</mat-icon>
     <span class="label">New Match</span>
   </a>

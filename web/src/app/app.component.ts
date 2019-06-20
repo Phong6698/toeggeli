@@ -42,7 +42,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.breakpointObserver.observe(['(max-width: 575.98px)', '(min-width: 992px)']).pipe(takeUntil(this.destroy$)).subscribe(result => {
-      console.log(result);
       if (result.breakpoints['(min-width: 992px)']) {
         this.sideNavMode = 'side';
         this.sideNavWidthClass = 'width-fixed';
@@ -57,7 +56,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.isAuthenticated$ = this.store.pipe(select(selectIsAuthenticated));
     this.user$ = this.store.select(selectToeggeliUser);
     this.userAuth$ = this.store.select(selectAuthUser);
-    console.log();
   }
 
   ngOnDestroy() {

@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Store} from '@ngrx/store';
+import {AppState} from '../../store/app-store.reducer';
+import {selectSpaceUsers} from '../toeggeli.reducer';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,6 +12,8 @@ import { Component, OnInit } from '@angular/core';
 export class DashboardComponent implements OnInit {
 
   hash = '';
+
+  players$: Observable<any>;
 
   players = [
     {
@@ -40,10 +46,11 @@ export class DashboardComponent implements OnInit {
     }
   ];
 
-  constructor() {
+  constructor(private store: Store<AppState>) {
   }
 
   ngOnInit() {
+    this.players$ = this.store.select(selectSpaceUsers);
   }
 
 }

@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {AppState} from '../../store/app-store.reducer';
 import {AddSpaceComponent} from '../../toeggeli/add-space/add-space.component';
 import {selectToeggeliSelectedSpaceName, selectToeggeliSpaces} from '../../toeggeli/toeggeli.reducer';
+import {Space} from '../../toeggeli/space';
 
 @Component({
   selector: 'app-space-selector',
@@ -12,16 +13,14 @@ import {selectToeggeliSelectedSpaceName, selectToeggeliSpaces} from '../../toegg
   styleUrls: ['./space-selector.component.scss']
 })
 export class SpaceSelectorComponent implements OnInit {
-  spaces$: Observable<any>;
+  spaces$: Observable<Space[]>;
   selectedSpaceName$: Observable<string>;
 
   constructor(private dialog: MatDialog, private store: Store<AppState>) {}
 
   ngOnInit() {
     this.spaces$ = this.store.select(selectToeggeliSpaces);
-    this.selectedSpaceName$ = this.store.select(
-      selectToeggeliSelectedSpaceName
-    );
+    this.selectedSpaceName$ = this.store.select(selectToeggeliSelectedSpaceName);
   }
 
   addSpace() {

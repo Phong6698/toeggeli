@@ -65,12 +65,9 @@ export const toeggeliReducer = createReducer(
     })
   ),
   on(spaceUsersRemoved,
-    (state, {user}) => ({
+    (state) => ({
       ...state,
-      spaceUsers: spaceUserAdapter.removeOne(
-        (user as any).id,
-        state.spaceUsers
-      )
+      spaceUsers: spaceUserAdapter.removeAll(state.spaceUsers)
     })
   )
 );
@@ -134,3 +131,6 @@ export const {
   selectAll,
   selectTotal
 } = spaceUserAdapter.getSelectors(selectToeggeliSpaceUsers);
+
+export const selectSpaceUsers = selectAll;
+

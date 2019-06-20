@@ -38,8 +38,7 @@ export const spaceUsersModified = createAction(
 );
 
 export const spaceUsersRemoved = createAction(
-  '[Toeggeli] Space Users removed',
-  props<{ user: User }>()
+  '[Toeggeli] Space Users removed'
 );
 
 export const addSpaceRequested = createAction(
