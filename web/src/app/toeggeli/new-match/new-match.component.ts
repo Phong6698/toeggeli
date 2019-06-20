@@ -1,17 +1,25 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {AppState} from 'src/app/store/app-store.reducer';
 import {Match} from 'src/app/core/match.service';
 import {PlayerSelectDialogComponent} from '../player-select-dialog/player-select-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {matchCreationRequested} from '../toeggeli.actions';
+import {selectSpaceUsers, selectToeggeliSelectedSpaceId} from '../toeggeli.reducer';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
+import {User} from '../user';
 
 @Component({
   selector: 'app-new-match',
   templateUrl: './new-match.component.html',
   styleUrls: ['./new-match.component.scss']
 })
-export class NewMatchComponent implements OnInit {
+export class NewMatchComponent implements OnInit, OnDestroy {
+
+  destroy$ = new Subject<void>();
+
+  spaceID: string;
 
   bluePlayers = [];
   redPlayers = [];
@@ -22,30 +30,38 @@ export class NewMatchComponent implements OnInit {
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
   ];
 
-  private players = [
-    {userID: 'player1', username: 'player1'},
-    {userID: 'player2', username: 'player2'},
-    {userID: 'player3', username: 'player3'},
-    {userID: 'player4', username: 'player4'},
-    {userID: 'player5', username: 'player5'},
-    {userID: 'player6', username: 'player6'},
-    {userID: 'player7', username: 'player7'},
-    {userID: 'player8', username: 'player8'}
-  ];
+  private users: User[];
 
   constructor(private store: Store<AppState>, public dialog: MatDialog) {
   }
 
   ngOnInit() {
+    this.store.select(selectSpaceUsers).pipe(takeUntil(this.destroy$))
+      .subscribe(users => this.users = users);
+
+
+    this.store.select(selectToeggeliSelectedSpaceId).pipe(takeUntil(this.destroy$))
+      .subscribe(spaceID => {
+        this.clearAllPlayers();
+        this.spaceID = spaceID;
+      });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   createNewMatch() {
     if (this.isSubmitNewMatchAllowed()) {
+      const players = this.bluePlayers.concat(this.redPlayers).map(player => {
+        return {userID: player.userID, side: player.side};
+      });
       const newMatch: Match = {
-        players: this.bluePlayers.concat(this.redPlayers),
+        players,
         blueScore: this.blueScore,
         redScore: this.redScore,
-        spaceID: '',
+        spaceID: this.spaceID,
         timestamp: new Date()
       };
       this.store.dispatch(matchCreationRequested({match: newMatch}));
@@ -79,19 +95,16 @@ export class NewMatchComponent implements OnInit {
 
   openPlayerSelectDialog(side?: string) {
 
-    let playersNotInTeam = this.players;
+    let playersNotInTeam = this.users;
+    let data;
     if (side) {
       playersNotInTeam = playersNotInTeam.filter(player => {
         if (side === 'blue') {
-          return !this.redPlayers.find(matchPlayer => matchPlayer.userID === player.userID);
+          return !this.redPlayers.find(matchPlayer => matchPlayer.userID === player.id);
         } else if (side === 'red') {
-          return !this.bluePlayers.find(matchPlayer => matchPlayer.userID === player.userID);
+          return !this.bluePlayers.find(matchPlayer => matchPlayer.userID === player.id);
         }
       });
-    }
-
-    let data;
-    if (side) {
       data = {
         side,
         players: playersNotInTeam,
@@ -112,7 +125,7 @@ export class NewMatchComponent implements OnInit {
       data
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe(result => {
       if (result) {
         if (side === 'blue') {
           this.bluePlayers = result;
@@ -126,9 +139,17 @@ export class NewMatchComponent implements OnInit {
     });
   }
 
+  clearAllPlayers() {
+    this.bluePlayers = [];
+    this.redPlayers = [];
+  }
+
   isSubmitNewMatchAllowed(): boolean {
-    return this.bluePlayers.length === 2 && this.redPlayers.length === 2 &&
-      !(this.blueScore === 10 && this.redScore === 10) && (this.blueScore === 10 || this.redScore === 10);
+    return this.bluePlayers.length === 2
+      && this.redPlayers.length === 2
+      && !(this.blueScore === 10 && this.redScore === 10)
+      && (this.blueScore === 10 || this.redScore === 10)
+      && this.spaceID != null;
   }
 }
 

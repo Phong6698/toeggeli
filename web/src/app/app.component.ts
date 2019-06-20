@@ -41,25 +41,26 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.breakpointObserver.observe(['(max-width: 575.98px)', '(min-width: 992px)']).pipe(takeUntil(this.destroy$)).subscribe(result => {
-      if (result.breakpoints['(min-width: 992px)']) {
-        this.sideNavMode = 'side';
-        this.sideNavWidthClass = 'width-fixed';
-      } else if (result.breakpoints['(max-width: 575.98px)']) {
-        this.sideNavMode = 'push';
-        this.sideNavWidthClass = 'width-auto';
-      } else {
-        this.sideNavMode = 'push';
-        this.sideNavWidthClass = 'width-fixed';
-      }
-    });
+    this.breakpointObserver.observe(['(max-width: 575.98px)', '(min-width: 992px)']).pipe(takeUntil(this.destroy$))
+      .subscribe(result => {
+        if (result.breakpoints['(min-width: 992px)']) {
+          this.sideNavMode = 'side';
+          this.sideNavWidthClass = 'width-fixed';
+        } else if (result.breakpoints['(max-width: 575.98px)']) {
+          this.sideNavMode = 'push';
+          this.sideNavWidthClass = 'width-auto';
+        } else {
+          this.sideNavMode = 'push';
+          this.sideNavWidthClass = 'width-fixed';
+        }
+      });
     this.isAuthenticated$ = this.store.pipe(select(selectIsAuthenticated));
     this.user$ = this.store.select(selectToeggeliUser);
     this.userAuth$ = this.store.select(selectAuthUser);
   }
 
   ngOnDestroy() {
-    this.destroy$.unsubscribe();
+    this.destroy$.next();
     this.destroy$.complete();
   }
 }
