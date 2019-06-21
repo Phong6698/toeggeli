@@ -1,13 +1,15 @@
 language: node_js
 node_js:
-  - '10'
+  - '12'
 install:
   - npm ci --prefix web
   - npm ci --prefix functions
 script:
+  - npm run prebuild --prefix web
   - npm run build.prod --prefix web
 deploy:
   provider: firebase
   skip_cleanup: true
   token:
     secure: $FIREBASE_TOKEN
+  message: $TRAVIS_COMMIT

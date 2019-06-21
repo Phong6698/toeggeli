@@ -12,6 +12,7 @@ import * as GravatarModule from 'gravatar';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {takeUntil} from 'rxjs/operators';
 import {SwUpdate} from '@angular/service-worker';
+import {environment} from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -25,6 +26,7 @@ export class AppComponent implements OnInit, OnDestroy {
   @ViewChild('sidenav', {static: true})
   sidenav: MatSidenav;
 
+  version = environment.version;
   isAuthenticated$: Observable<boolean>;
   user$: Observable<User>;
   userAuth$: Observable<UserInfo>;

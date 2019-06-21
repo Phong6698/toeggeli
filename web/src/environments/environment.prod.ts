@@ -1,5 +1,8 @@
+import {version} from '../_versions';
+
 export const environment = {
   production: true,
+  version,
   firebase: {
     apiKey: 'AIzaSyB8ww6cUooIzhuZX3LqF-sPob1ffMSVvLc',
     authDomain: 'toeggeli-8bcd8.firebaseapp.com',
