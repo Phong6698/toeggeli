@@ -11,6 +11,7 @@ import {UserInfo} from 'firebase';
 import * as GravatarModule from 'gravatar';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {takeUntil} from 'rxjs/operators';
+import {SwUpdate} from '@angular/service-worker';
 
 @Component({
   selector: 'app-root',
@@ -32,7 +33,7 @@ export class AppComponent implements OnInit, OnDestroy {
   sideNavMode: 'over' | 'push' | 'side' = 'push';
   sideNavWidthClass: 'width-auto' | 'width-fixed' = 'width-auto';
 
-  constructor(private store: Store<AppState>, private breakpointObserver: BreakpointObserver) {
+  constructor(private store: Store<AppState>, private breakpointObserver: BreakpointObserver, private swUpdate: SwUpdate) {
   }
 
   logout() {
@@ -41,6 +42,14 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    if (this.swUpdate.isEnabled) {
+      this.swUpdate.available.subscribe(() => {
+        if (confirm('New version available. Load New Version?')) {
+          window.location.reload();
+        }
+      });
+    }
+
     this.breakpointObserver.observe(['(max-width: 575.98px)', '(min-width: 992px)']).pipe(takeUntil(this.destroy$))
       .subscribe(result => {
         if (result.breakpoints['(min-width: 992px)']) {
