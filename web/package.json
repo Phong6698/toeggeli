@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "prebuil": "node ./node_modules/ng-appversion/index.js --git ../../",
+    "prebuild": "node ./node_modules/ng-appversion/index.js --git ../../",
     "build": "ng build",
     "build.prod": "ng build --prod",
     "test": "ng test",
