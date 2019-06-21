@@ -12,7 +12,7 @@ import {CoreModule} from './core/core.module';
 import {SharedModule} from './shared/shared.module';
 import {AppStoreModule} from './store/app-store.module';
 import {ServiceWorkerModule} from '@angular/service-worker';
-import {MatDividerModule} from '@angular/material';
+import {MatDividerModule, MatSnackBarModule} from '@angular/material';
 import {LayoutModule} from '@angular/cdk/layout';
 
 @NgModule({
@@ -23,6 +23,7 @@ import {LayoutModule} from '@angular/cdk/layout';
     AngularFirestoreModule,
     MatSidenavModule,
     MatDividerModule,
+    MatSnackBarModule,
     LayoutModule,
     BrowserModule,
     BrowserAnimationsModule,
