@@ -33,7 +33,8 @@ export class AppComponent implements OnInit, OnDestroy {
   sideNavMode: 'over' | 'push' | 'side' = 'push';
   sideNavWidthClass: 'width-auto' | 'width-fixed' = 'width-auto';
 
-  constructor(private store: Store<AppState>, private breakpointObserver: BreakpointObserver, private swUpdate: SwUpdate) {
+  constructor(private store: Store<AppState>, private breakpointObserver: BreakpointObserver,
+              private swUpdate: SwUpdate) {
   }
 
   logout() {
@@ -43,7 +44,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     if (this.swUpdate.isEnabled) {
-      this.swUpdate.available.subscribe(() => {
+      this.swUpdate.available.pipe(takeUntil(this.destroy$)).subscribe(() => {
         if (confirm('New version available. Load New Version?')) {
           window.location.reload();
         }

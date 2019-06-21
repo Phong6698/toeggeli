@@ -1,7 +1,7 @@
 {
   "name": "toeggeli-web",
   "short_name": "toeggeli-web",
-  "theme_color": "#1976d2",
+  "theme_color": "#3f51b5",
   "background_color": "#3f51b5",
   "display": "standalone",
   "scope": "/",
