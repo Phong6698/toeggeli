@@ -31,7 +31,6 @@ export class AppComponent implements OnInit, OnDestroy {
   isAuthenticated$: Observable<boolean>;
   user$: Observable<User>;
   userAuth$: Observable<UserInfo>;
-  gravatarModule = GravatarModule;
 
   sideNavMode: 'over' | 'push' | 'side' = 'push';
   sideNavWidthClass: 'width-auto' | 'width-fixed' = 'width-auto';
@@ -75,5 +74,9 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  get gravatarModule() {
+    return GravatarModule;
   }
 }

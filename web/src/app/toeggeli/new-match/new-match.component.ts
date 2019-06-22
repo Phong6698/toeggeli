@@ -53,7 +53,7 @@ export class NewMatchComponent implements OnInit, OnDestroy {
   }
 
   createNewMatch() {
-    if (this.isSubmitNewMatchAllowed()) {
+    if (this.isSubmitNewMatchAllowed) {
       const players = this.bluePlayers.concat(this.redPlayers).map(player => {
         return {userID: player.userID, side: player.side};
       });
@@ -140,16 +140,40 @@ export class NewMatchComponent implements OnInit, OnDestroy {
   }
 
   clearAllPlayers() {
-    this.bluePlayers = [];
-    this.redPlayers = [];
+    if (this.isClearAllPlayersAllowed) {
+      this.bluePlayers = [];
+      this.redPlayers = [];
+    }
   }
 
-  isSubmitNewMatchAllowed(): boolean {
+  onBlueScoreChange(blueScore) {
+    if (blueScore !== 10) {
+      this.redScore = 10;
+    } else {
+      this.redScore = 0;
+    }
+  }
+
+  onRedScoreChange(redScore) {
+    if (redScore !== 10) {
+      this.blueScore = 10;
+    } else {
+      this.blueScore = 0;
+    }
+  }
+
+  get isSubmitNewMatchAllowed(): boolean {
     return this.bluePlayers.length === 2
       && this.redPlayers.length === 2
       && !(this.blueScore === 10 && this.redScore === 10)
       && (this.blueScore === 10 || this.redScore === 10)
       && this.spaceID != null;
   }
+
+  get isClearAllPlayersAllowed(): boolean {
+    return this.bluePlayers.length > 0 || this.redPlayers.length > 0;
+  }
+
+
 }
 

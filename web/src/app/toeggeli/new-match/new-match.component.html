@@ -21,7 +21,7 @@
           <mat-icon>remove_circle</mat-icon>
         </button>
         <mat-form-field class="ml-2 mr-2 score-select">
-          <mat-select [(value)]="blueScore">
+          <mat-select [(value)]="blueScore" (valueChange)="onBlueScoreChange($event)">
             <mat-option *ngFor="let score of scores" [value]="score">
               {{score}}
             </mat-option>
@@ -39,7 +39,7 @@
           <mat-icon>remove_circle</mat-icon>
         </button>
         <mat-form-field class="ml-2 mr-2 score-select">
-          <mat-select [(value)]="redScore">
+          <mat-select [(value)]="redScore" (valueChange)="onRedScoreChange($event)">
             <mat-option *ngFor="let score of scores" [value]="score">
               {{score}}
             </mat-option>
@@ -73,10 +73,10 @@
     <mat-icon>casino</mat-icon>
     <span class="d-none d-sm-inline ml-1">Random Select</span>
   </button>
-  <button mat-raised-button color="primary" class="ml-1" (click)="clearAllPlayers()">
+  <button mat-raised-button *ngIf="isClearAllPlayersAllowed" color="primary" class="ml-1" (click)="clearAllPlayers()">
     Clear Players
   </button>
-  <button mat-raised-button color="primary" class="float-right" [disabled]="!isSubmitNewMatchAllowed()"
+  <button mat-raised-button color="primary" class="float-right" [disabled]="!isSubmitNewMatchAllowed"
           (click)="createNewMatch()">
     Submit
   </button>
