@@ -4,6 +4,7 @@ import {selectRouterParamSpaceId} from '../store/app-store.reducer';
 import {Space} from './space';
 import {
   addSpaceCreated,
+  matchHistoryAdded,
   spacesLoaded,
   spaceUsersAdded,
   spaceUsersModified,
@@ -12,21 +13,25 @@ import {
 } from './toeggeli.actions';
 import {User} from './user';
 import {Action} from '@ngrx/store/src/models';
+import {Match} from '../core/match.service';
 
 export interface ToeggeliState {
   user: User;
   spaces: Space[];
   spaceUsers: EntityState<User>;
   hasAddSpaceError: boolean;
+  matchHistory: EntityState<Match>;
 }
 
 export const spaceUserAdapter = createEntityAdapter<User>();
+export const matchHistoryAdapter = createEntityAdapter<Match>();
 
 export const initialState: ToeggeliState = {
   user: null,
   spaces: null,
   hasAddSpaceError: false,
-  spaceUsers: spaceUserAdapter.getInitialState()
+  spaceUsers: spaceUserAdapter.getInitialState(),
+  matchHistory: matchHistoryAdapter.getInitialState()
 };
 
 export const toeggeliReducer = createReducer(
@@ -69,7 +74,13 @@ export const toeggeliReducer = createReducer(
       ...state,
       spaceUsers: spaceUserAdapter.removeAll(state.spaceUsers)
     })
-  )
+  ),
+  on(matchHistoryAdded,
+    (state, {match}) => ({
+      ...state,
+      matchHistory: matchHistoryAdapter.addOne(match, state.matchHistory)
+    })
+  ),
 );
 
 export function reducer(state: ToeggeliState | undefined, action: Action) {
@@ -125,12 +136,21 @@ export const selectToeggeliSpaceUsers = createSelector(
   state => state.spaceUsers
 );
 
+export const selectToeggeliMatchHistory = createSelector(
+  selectToeggeli,
+  state => state.matchHistory
+);
+
 export const {
-  selectIds,
-  selectEntities,
-  selectAll,
-  selectTotal
+  selectAll: selectMatchHistory,
+} = matchHistoryAdapter.getSelectors(selectToeggeliMatchHistory);
+
+export const {
+  selectAll: selectSpaceUsers,
 } = spaceUserAdapter.getSelectors(selectToeggeliSpaceUsers);
 
-export const selectSpaceUsers = selectAll;
+
+
+
+
 

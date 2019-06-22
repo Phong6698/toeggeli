@@ -7,6 +7,10 @@
     <mat-icon class="icon">games</mat-icon>
     <span class="label">New Match</span>
   </a>
+  <a mat-list-item [routerLink]="(selectedSpaceId$ | async) + '/match-history'">
+    <mat-icon class="icon">history</mat-icon>
+    <span class="label">Match History</span>
+  </a>
   <a mat-list-item>
     <mat-icon class="icon">bar_chart</mat-icon>
     <span class="label">Statistiken</span>

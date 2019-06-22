@@ -3,6 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {SpaceComponent} from './space/space.component';
 import {NewMatchComponent} from './new-match/new-match.component';
+import {MatchHistoryComponent} from './match-history/match-history.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
       {
         path: 'new-match',
         component: NewMatchComponent
+      },
+      {
+        path: 'match-history',
+        component: MatchHistoryComponent
       },
       {
         path: '',

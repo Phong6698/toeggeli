@@ -59,3 +59,12 @@ export const matchCreationRequested = createAction(
   props<{ match: Match }>()
 );
 
+export const matchHistoryRequested = createAction(
+  '[Toeggeli] Match History Requested',
+  props<{spaceID: string}>()
+);
+
+export const matchHistoryAdded = createAction(
+  '[Toeggeli] Match History Loaded',
+  props<{ match: Match }>()
+);

@@ -23,9 +23,13 @@ import {ToeggeliEffects} from './toeggeli.effects';
 import {reducer} from './toeggeli.reducer';
 import {NewMatchComponent} from './new-match/new-match.component';
 import {PlayerSelectDialogComponent} from './player-select-dialog/player-select-dialog.component';
+import {MatchHistoryComponent} from './match-history/match-history.component';
 
 @NgModule({
-  declarations: [DashboardComponent, SpaceComponent, AddSpaceComponent, NewMatchComponent, PlayerSelectDialogComponent],
+  declarations: [
+    DashboardComponent, SpaceComponent, AddSpaceComponent, NewMatchComponent, PlayerSelectDialogComponent,
+    MatchHistoryComponent
+  ],
   exports: [SpaceComponent, AddSpaceComponent],
   imports: [
     CommonModule,
@@ -49,4 +53,5 @@ import {PlayerSelectDialogComponent} from './player-select-dialog/player-select-
   ],
   entryComponents: [AddSpaceComponent, PlayerSelectDialogComponent]
 })
-export class ToeggeliModule {}
+export class ToeggeliModule {
+}

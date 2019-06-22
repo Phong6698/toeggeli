@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {Router} from '@angular/router';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Actions, createEffect, Effect, ofType} from '@ngrx/effects';
 import {Store} from '@ngrx/store';
 import {combineLatest, Observable, of} from 'rxjs';
 import {catchError, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
-import {MatchService} from '../core/match.service';
+import {Match, MatchService} from '../core/match.service';
 import {SpaceService} from '../core/space.service';
 import {AppState, selectRouterParamSpaceId} from '../store/app-store.reducer';
 import {selectAuthUserId} from '../store/auth.reducer';
@@ -16,6 +16,8 @@ import {
   addSpaceFailed,
   addSpaceRequested,
   matchCreationRequested,
+  matchHistoryAdded,
+  matchHistoryRequested,
   spacesLoaded,
   spacesRequested,
   spaceUsersAdded,
@@ -149,5 +151,17 @@ export class ToeggeliEffects {
       return this.matchService.createMatch(action.match);
     })
   );
+
+  matchHistoryRequested$ = createEffect(() => this.actions$.pipe(
+    ofType(matchHistoryRequested),
+    switchMap((action) => {
+      return this.matchService.getMatchHistory(action.spaceID);
+    }),
+    mergeMap(action => action),
+    map(action => {
+      return {...action.payload.doc.data(), id: action.payload.doc.id};
+    }),
+    map(match => matchHistoryAdded({match: match as Match}))
+  ));
 
 }
