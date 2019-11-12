@@ -24,7 +24,13 @@ export interface ToeggeliState {
 }
 
 export const spaceUserAdapter = createEntityAdapter<User>();
-export const matchHistoryAdapter = createEntityAdapter<Match>();
+export const matchHistoryAdapter = createEntityAdapter<Match>({
+  sortComparer: sortByTimestamp
+});
+
+export function sortByTimestamp(a: Match, b: Match): number {
+  return b.timestamp.seconds.toString().localeCompare(a.timestamp.seconds.toString());
+}
 
 export const initialState: ToeggeliState = {
   user: null,

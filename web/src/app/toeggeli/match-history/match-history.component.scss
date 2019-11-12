@@ -15,6 +15,20 @@
   grid-area: date;
 }
 
+.team-blue-player-button {
+  background-color: #434fff;
+  color: white;
+  min-width: 130px;
+  line-height: 45px;
+}
+
+.team-red-player-button {
+  background-color: #f2424f;
+  color: white;
+  min-width: 120px;
+  line-height: 45px;
+}
+
 .team-blue-player1 {
   grid-area: bluePlayer1;
 }

@@ -62,7 +62,7 @@ export class NewMatchComponent implements OnInit, OnDestroy {
         blueScore: this.blueScore,
         redScore: this.redScore,
         spaceID: this.spaceID,
-        timestamp: new Date()
+        timestamp: null
       };
       this.store.dispatch(matchCreationRequested({match: newMatch}));
     }
