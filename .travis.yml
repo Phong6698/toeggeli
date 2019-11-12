@@ -5,8 +5,6 @@ install:
   - npm ci --prefix web
   - npm ci --prefix functions
 script:
-  - npm run lint --prefix web
-  - npm run lint --prefix functions
   - npm run prebuild --prefix web
   - npm run build.prod --prefix web
 deploy:
