@@ -13,4 +13,4 @@ deploy:
   token: $FIREBASE_TOKEN
   message: $TRAVIS_COMMIT
 notifications:
-  slack: $SLACK_NOTIFICATION
+  slack: masters-yt82785:kMVFEe6zFAy3R3yEXtPOG7nS
