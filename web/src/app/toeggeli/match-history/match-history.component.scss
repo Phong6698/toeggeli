@@ -1,0 +1,63 @@
+.grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 2fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+  grid-gap: 1em;
+  grid-template-areas:
+    "bluePlayer1 . redPlayer1"
+    "bluePlayer1 score redPlayer1"
+    ". score ."
+    "bluePlayer2 score redPlayer2"
+    "bluePlayer2 . redPlayer2";
+}
+
+.date {
+  grid-area: date;
+}
+
+.team-blue-player1 {
+  grid-area: bluePlayer1;
+}
+
+.team-blue-player2 {
+  grid-area: bluePlayer2;
+}
+
+.team-red-player1 {
+  grid-area: redPlayer1;
+}
+
+.team-red-player2 {
+  grid-area: redPlayer2;
+}
+
+.score-grid {
+  grid-area: score;
+  display: inline-grid;
+  grid-template-columns: 2fr 1fr 2fr;
+  grid-template-rows: 1fr;
+  grid-gap: 1em;
+  grid-template-areas:
+    "blueScore scoreDivider redScore";
+}
+
+.blue-score {
+  display: flex;
+  grid-area: blueScore;
+  justify-content: center;
+  align-items: center;
+}
+
+.red-score {
+  display: flex;
+  grid-area: redScore;
+  justify-content: center;
+  align-items: center;
+}
+
+.score-divider {
+  display: flex;
+  grid-area: scoreDivider;
+  justify-content: center;
+  align-items: center;
+}

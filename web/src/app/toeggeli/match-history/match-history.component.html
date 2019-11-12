@@ -1,3 +1,15 @@
-<div *ngFor="let match of matches$ | async">
-  <pre>{{match | json}}</pre>
-</div>
+<mat-card *ngFor="let match of matches$ | async" class="m-4">
+  <div class="grid">
+    <button mat-raised-button
+            class="team-blue-player1">{{getPlayerFromMatch(match.players, 'blue', 0).username}}</button>
+    <button mat-raised-button
+            class="team-blue-player2">{{getPlayerFromMatch(match.players, 'blue', 1).username}}</button>
+    <div class="score-grid text-center">
+      <p class="blue-score text-center m-0">{{match.blueScore}}</p>
+      <p class="score-divider text-center m-0">:</p>
+      <p class="red-score text-center m-0">{{match.redScore}}</p>
+    </div>
+    <button mat-raised-button class="team-red-player1">{{getPlayerFromMatch(match.players, 'red', 0).username}}</button>
+    <button mat-raised-button class="team-red-player2">{{getPlayerFromMatch(match.players, 'red', 1).username}}</button>
+  </div>
+</mat-card>
