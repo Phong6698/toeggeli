@@ -9,74 +9,76 @@
     ". score ."
     "bluePlayer2 score redPlayer2"
     "bluePlayer2 . redPlayer2";
+
+  .date {
+    grid-area: date;
+  }
+
+  .team-blue-player-button {
+    background-color: #434fff;
+    color: white;
+    min-width: 130px;
+    line-height: 45px;
+  }
+
+  .team-red-player-button {
+    background-color: #f2424f;
+    color: white;
+    min-width: 120px;
+    line-height: 45px;
+  }
+
+  .team-blue-player1 {
+    grid-area: bluePlayer1;
+  }
+
+  .team-blue-player2 {
+    grid-area: bluePlayer2;
+  }
+
+  .team-red-player1 {
+    grid-area: redPlayer1;
+  }
+
+  .team-red-player2 {
+    grid-area: redPlayer2;
+  }
+
+  .score-grid {
+    grid-area: score;
+    display: inline-grid;
+    grid-template-columns: 2fr 1fr 2fr;
+    grid-template-rows: 1fr;
+    grid-gap: 1em;
+    grid-template-areas: "blueScore scoreDivider redScore";
+
+    .blue-score {
+      display: flex;
+      grid-area: blueScore;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .red-score {
+      display: flex;
+      grid-area: redScore;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .score-divider {
+      display: flex;
+      grid-area: scoreDivider;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .winner-score {
+      color: #3ce643;
+      font-weight: bold;
+    }
+  }
+
 }
 
-.date {
-  grid-area: date;
-}
 
-.team-blue-player-button {
-  background-color: #434fff;
-  color: white;
-  min-width: 130px;
-  line-height: 45px;
-}
-
-.team-red-player-button {
-  background-color: #f2424f;
-  color: white;
-  min-width: 120px;
-  line-height: 45px;
-}
-
-.team-blue-player1 {
-  grid-area: bluePlayer1;
-}
-
-.team-blue-player2 {
-  grid-area: bluePlayer2;
-}
-
-.team-red-player1 {
-  grid-area: redPlayer1;
-}
-
-.team-red-player2 {
-  grid-area: redPlayer2;
-}
-
-.score-grid {
-  grid-area: score;
-  display: inline-grid;
-  grid-template-columns: 2fr 1fr 2fr;
-  grid-template-rows: 1fr;
-  grid-gap: 1em;
-  grid-template-areas:
-    "blueScore scoreDivider redScore";
-}
-
-.blue-score {
-  display: flex;
-  grid-area: blueScore;
-  justify-content: center;
-  align-items: center;
-}
-
-.red-score {
-  display: flex;
-  grid-area: redScore;
-  justify-content: center;
-  align-items: center;
-}
-
-.score-divider {
-  display: flex;
-  grid-area: scoreDivider;
-  justify-content: center;
-  align-items: center;
-}
-
-.winner-score {
-  color: #3ce643;
-  font-weight: bold;
-}
