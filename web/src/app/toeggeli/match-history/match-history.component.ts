@@ -20,7 +20,8 @@ export class MatchHistoryComponent implements OnInit, OnDestroy {
   matches$: Observable<Match[]>;
   users: User[];
 
-  constructor(private store: Store<AppState>) { }
+  constructor(private store: Store<AppState>) {
+  }
 
   ngOnInit() {
     this.store.select(selectToeggeliSelectedSpaceId).pipe(takeUntil(this.destroy$)).subscribe(spaceID => {
@@ -31,6 +32,7 @@ export class MatchHistoryComponent implements OnInit, OnDestroy {
     this.matches$ = this.store.select(selectMatchHistory);
     this.store.select(selectSpaceUsers).pipe(takeUntil(this.destroy$))
       .subscribe(users => this.users = users);
+
   }
 
   ngOnDestroy() {
@@ -38,7 +40,7 @@ export class MatchHistoryComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  getPlayerFromMatch(players: any[], team: 'blue' | 'red', index: 0|1): User {
+  getPlayerFromMatch(players: any[], team: 'blue' | 'red', index: 0 | 1): User {
     const userID = players.filter(player => player.side === team)[index].userID;
     return this.users.find(user => user.id === userID);
   }

@@ -1,21 +1,21 @@
 <h1>Dashboard</h1>
-
 <div class="row">
   <div class="col-md-4 mb-5" *ngFor="let player of players$ | async; let index = index">
     <mat-card>
       <mat-card-header>
-        <div mat-card-avatar class="avatar">
+        <!--<div mat-card-avatar class="avatar">
           <div class="rank"
                [ngClass]="{gold: index === 0, silver: index === 1, bronze: index === 2, others: index >= 3}">{{index + 1}}</div>
-        </div>
+        </div>-->
         <mat-card-title>{{player.username}}</mat-card-title>
         <mat-card-subtitle>{{player.firstName}} {{player.lastName}}</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        <mat-progress-bar [value]="player.wins / (player.wins + player.losses) * 100"></mat-progress-bar>
-        <p>Winrate: {{player.wins / (player.wins + player.losses) | percent}}</p>
-        <p>Wins: {{player.wins}}</p>
-        <p>Losses: {{player.losses}}</p>
+        <!--FIXME refactor... this is very ugly-->
+        <mat-progress-bar [value]="getStatisticByUserID(player.id)?.wins / (getStatisticByUserID(player.id)?.wins + getStatisticByUserID(player.id)?.losses) * 100"></mat-progress-bar>
+        <p>Win Rate: {{getStatisticByUserID(player.id)?.wins / (getStatisticByUserID(player.id)?.wins + getStatisticByUserID(player.id)?.losses) | percent}}</p>
+        <p>Wins: {{getStatisticByUserID(player.id)?.wins}}</p>
+        <p>Losses: {{getStatisticByUserID(player.id)?.losses}}</p>
       </mat-card-content>
     </mat-card>
   </div>

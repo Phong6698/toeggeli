@@ -22,6 +22,12 @@ export class MatchService {
     }).stateChanges();
   }
 
+  getStatistics(spaceID: string) {
+    return this.angularFirestore.collection('Statistics', ref => {
+      return ref.where('spaceID', '==', spaceID);
+    }).stateChanges();
+  }
+
   get timestamp() {
     return firebase.firestore.FieldValue.serverTimestamp();
   }
@@ -34,4 +40,13 @@ export interface Match {
   redScore: number;
   spaceID: string;
   timestamp: firebase.firestore.Timestamp;
+}
+
+export interface Statistic {
+  id: string;
+  userID: string;
+  spaceID: string;
+  wins: number;
+  losses: number;
+  elo: number;
 }

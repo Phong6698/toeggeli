@@ -5,7 +5,7 @@ import {Actions, createEffect, Effect, ofType} from '@ngrx/effects';
 import {Store} from '@ngrx/store';
 import {combineLatest, Observable, of} from 'rxjs';
 import {catchError, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
-import {Match, MatchService} from '../core/match.service';
+import {Match, MatchService, Statistic} from '../core/match.service';
 import {SpaceService} from '../core/space.service';
 import {AppState, selectRouterParamSpaceId} from '../store/app-store.reducer';
 import {selectAuthUserId} from '../store/auth.reducer';
@@ -22,6 +22,8 @@ import {
   spacesRequested,
   spaceUsersAdded,
   spaceUsersRequested,
+  statisticAdded,
+  statisticsRequested,
   userLoaded,
   userRequested
 } from './toeggeli.actions';
@@ -162,6 +164,18 @@ export class ToeggeliEffects {
       return {...action.payload.doc.data(), id: action.payload.doc.id};
     }),
     map(match => matchHistoryAdded({match: match as Match}))
+  ));
+
+  statisticsRequested$ = createEffect(() => this.actions$.pipe(
+    ofType(statisticsRequested),
+    switchMap((action) => {
+      return this.matchService.getStatistics(action.spaceID);
+    }),
+    mergeMap(action => action),
+    map(action => {
+      return {...action.payload.doc.data(), id: action.payload.doc.id};
+    }),
+    map(statistic => statisticAdded({statistic: statistic as Statistic}))
   ));
 
 }

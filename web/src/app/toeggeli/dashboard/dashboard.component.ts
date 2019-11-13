@@ -1,56 +1,48 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../store/app-store.reducer';
-import {selectSpaceUsers} from '../toeggeli.reducer';
-import {Observable} from 'rxjs';
+import {selectSpaceUsers, selectStatistics, selectToeggeliSelectedSpaceId} from '../toeggeli.reducer';
+import {Observable, Subject} from 'rxjs';
+import {User} from '../user';
+import {takeUntil} from 'rxjs/operators';
+import {statisticsRequested} from '../toeggeli.actions';
+import {Statistic} from '../../core/match.service';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
 
-  hash = '';
+  destroy$ = new Subject<void>();
 
-  players$: Observable<any>;
-
-  players = [
-    {
-      firstName: 'Steven',
-      lastName: 'Imhof',
-      username: 'Angry Steven',
-      wins: 10,
-      losses: 0
-    },
-    {
-      firstName: 'Chiramet',
-      lastName: 'Penglerd',
-      username: 'Phong',
-      wins: 8,
-      losses: 2
-    },
-    {
-      firstName: 'Dominik',
-      lastName: 'Forster',
-      username: 'domi',
-      wins: 6,
-      losses: 4
-    },
-    {
-      firstName: 'Peter',
-      lastName: 'Meier',
-      username: 'pete',
-      wins: 2,
-      losses: 8
-    }
-  ];
+  players$: Observable<User[]>;
+  statistics: Statistic[];
+  statistics$: Observable<Statistic[]>;
 
   constructor(private store: Store<AppState>) {
   }
 
   ngOnInit() {
     this.players$ = this.store.select(selectSpaceUsers);
+    this.store.select(selectToeggeliSelectedSpaceId).pipe(takeUntil(this.destroy$)).subscribe(spaceID => {
+      if (spaceID) {
+        this.store.dispatch(statisticsRequested({spaceID}));
+      }
+    });
+    this.statistics$ = this.store.select(selectStatistics);
+    this.store.select(selectStatistics).pipe(takeUntil(this.destroy$))
+      .subscribe(statistics => this.statistics = statistics);
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  getStatisticByUserID(userID: string): Statistic { // FIXME refactor... this is very ugly
+    return this.statistics.find(statistic => statistic.userID === userID);
   }
 
 }

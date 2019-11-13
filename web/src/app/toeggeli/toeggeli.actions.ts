@@ -1,5 +1,5 @@
 import {createAction, props} from '@ngrx/store';
-import {Match} from '../core/match.service';
+import {Match, Statistic} from '../core/match.service';
 import {Space} from './space';
 import {User} from './user';
 
@@ -61,10 +61,20 @@ export const matchCreationRequested = createAction(
 
 export const matchHistoryRequested = createAction(
   '[Toeggeli] Match History Requested',
-  props<{spaceID: string}>()
+  props<{ spaceID: string }>()
 );
 
 export const matchHistoryAdded = createAction(
   '[Toeggeli] Match History Loaded',
   props<{ match: Match }>()
+);
+
+export const statisticsRequested = createAction(
+  '[Toeggeli] Statistics Requested',
+  props<{ spaceID: string }>()
+);
+
+export const statisticAdded = createAction(
+  '[Toeggeli] Statistic Loaded',
+  props<{ statistic: Statistic }>()
 );

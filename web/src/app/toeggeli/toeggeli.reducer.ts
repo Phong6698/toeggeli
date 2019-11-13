@@ -9,11 +9,12 @@ import {
   spaceUsersAdded,
   spaceUsersModified,
   spaceUsersRemoved,
+  statisticAdded,
   userLoaded
 } from './toeggeli.actions';
 import {User} from './user';
 import {Action} from '@ngrx/store/src/models';
-import {Match} from '../core/match.service';
+import {Match, Statistic} from '../core/match.service';
 
 export interface ToeggeliState {
   user: User;
@@ -21,12 +22,14 @@ export interface ToeggeliState {
   spaceUsers: EntityState<User>;
   hasAddSpaceError: boolean;
   matchHistory: EntityState<Match>;
+  statistics: EntityState<Statistic>;
 }
 
 export const spaceUserAdapter = createEntityAdapter<User>();
 export const matchHistoryAdapter = createEntityAdapter<Match>({
   sortComparer: sortByTimestamp
 });
+export const statisticsAdaptar = createEntityAdapter<Statistic>();
 
 export function sortByTimestamp(a: Match, b: Match): number {
   return b.timestamp.seconds.toString().localeCompare(a.timestamp.seconds.toString());
@@ -37,7 +40,8 @@ export const initialState: ToeggeliState = {
   spaces: null,
   hasAddSpaceError: false,
   spaceUsers: spaceUserAdapter.getInitialState(),
-  matchHistory: matchHistoryAdapter.getInitialState()
+  matchHistory: matchHistoryAdapter.getInitialState(),
+  statistics: statisticsAdaptar.getInitialState()
 };
 
 export const toeggeliReducer = createReducer(
@@ -85,6 +89,12 @@ export const toeggeliReducer = createReducer(
     (state, {match}) => ({
       ...state,
       matchHistory: matchHistoryAdapter.addOne(match, state.matchHistory)
+    })
+  ),
+  on(statisticAdded,
+    (state, {statistic}) => ({
+      ...state,
+      statistics: statisticsAdaptar.addOne(statistic, state.statistics)
     })
   ),
 );
@@ -147,6 +157,11 @@ export const selectToeggeliMatchHistory = createSelector(
   state => state.matchHistory
 );
 
+export const selectToeggeliStatistics = createSelector(
+  selectToeggeli,
+  state => state.statistics
+);
+
 export const {
   selectAll: selectMatchHistory,
 } = matchHistoryAdapter.getSelectors(selectToeggeliMatchHistory);
@@ -154,6 +169,10 @@ export const {
 export const {
   selectAll: selectSpaceUsers,
 } = spaceUserAdapter.getSelectors(selectToeggeliSpaceUsers);
+
+export const {
+  selectAll: selectStatistics,
+} = statisticsAdaptar.getSelectors(selectToeggeliStatistics);
 
 
 
