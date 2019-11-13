@@ -9,15 +9,12 @@
     ". score ."
     "bluePlayer2 score redPlayer2"
     "bluePlayer2 . redPlayer2";
-
-  .date {
-    grid-area: date;
-  }
+  justify-items: center;
 
   .team-blue-player-button {
     background-color: #434fff;
     color: white;
-    min-width: 130px;
+    min-width: 120px;
     line-height: 45px;
   }
 
@@ -79,6 +76,34 @@
     }
   }
 
+}
+
+@media (max-width: 500px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 2fr 2fr;
+    grid-gap: 1em;
+    grid-template-areas:
+      "score score"
+      "bluePlayer1 redPlayer1"
+      "bluePlayer2 redPlayer2";
+  }
+}
+
+@media (max-width: 370px) {
+  .team-blue-player-button {
+    font-size: 10px;
+    min-width: 80px !important;
+    line-height: 0 !important;
+
+  }
+
+  .team-red-player-button {
+    font-size: 10px;
+    min-width: 80px !important;
+    line-height: 0 !important;
+
+  }
 }
 
 
